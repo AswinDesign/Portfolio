@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aswin</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body id="body">
+    <div id="preloader">
+        <div id="loader">
+            <div id="progress"></div>
+        </div>
+    </div>
+    <header>
+        <nav>
+            <ul id="menubar1">
+                <li id="h_home1" class="h-l-line"><a href="#home" class=" mouse-hover" >home</a>
+                    <div class="underline"></div>
+                </li>
+                <li id="h_about1" class="h-l-line"><a href="#aboutme" class="mouse-hover">about me</a>
+                    <div class="underline"></div>
+                </li>
+                <li id="h_work1" class="h-l-line"><a href="#work" class="mouse-hover" >work</a>
+                    <div class="underline"></div>
+                </li>
+                <li id="h_contact1" class="h-l-line"><a href="#contact" class="mouse-hover" >contact me</a>
+                    <div class="underline"></div>
+                </li>
+            </ul>
+
+
+            <ul id="menubar2">
+                <li id="h_home2" class="h-l-line"><a href="#home" class=" mouse-hover" onclick="close_menu()">home</a>
+                    <div class="underline"></div>
+                </li>
+                <li id="h_about2" class="h-l-line"><a href="#aboutme" class="mouse-hover" onclick="close_menu()">about me</a>
+                    <div class="underline"></div>
+                </li>
+                <li id="h_work2" class="h-l-line"><a href="#work" class="mouse-hover" onclick="close_menu()">work</a>
+                    <div class="underline"></div>
+                </li>
+                <li id="h_contact2" class="h-l-line"><a href="#contact" class="mouse-hover" onclick="close_menu()">contact me</a>
+                    <div class="underline"></div>
+                </li>
+            </ul>
+            <div class="menu" onclick="open_menu()"><i class='bx bx-menu-alt-right' id="menu_icon"></i>
+                <i class='bx bx-x' id="menu_cross"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="section" id="home">
+        <div class="cursor outer" id="cursor"></div>
+        <div class="cursor inner" id="cursor1"></div>
+        <div class="main"></div>
+        <div class="home-about" id="aboutme">
+
+            <div class="home" id="homeTitle">
+                <div class="title title-anim" id="title">
+                    <h1 class=" mouse-hover"> UI UX DESIGNER</h1>
+                </div>
+            </div>
+            <div class="about-me" id="homeAbout">
+                <div class="profile">
+                    <div class="about about-anim" id="about">
+                        <div class="content" id="content">
+                            <h2 class=" mouse-hover">
+                                Aswin TC
+                            </h2>
+                            <div class="text mouse-hover">
+                                <p>Hi there!I'm Aswin,and I recently finished my BCA degree.While studying,I found a
+                                    love
+                                    for UI/UX design,I realized I could combine my tech skills with my creative side to
+                                    make
+                                    digital things more user-friendly and enjoyable.</p>
+                            </div>
+                        </div>
+                        <div class="image" id="image">
+                            <img src="./assets/image/luffy.jpg" alt="image">
+                        </div>
+
+                        <div class="skill mouse-hover" id="skill">
+                            <h3>Tgings I Create</h3>
+                            <p>UI Animations</p>
+                            <p>Web Design</p>
+                            <p>App Design</p>
+                            <p>Graphic Design</p>
+                        </div>
+                        <div class="tools mouse-hover" id="tools">
+                            <h3>Using Tools</h3>
+                            <p><span>Figma</span><span>Adobe XD</span></p>
+                            <p><span>Framer</span><span>Webflow</span></p>
+                            <p><span>Adobe Photoshop</span><span>Spline</span></p>
+                            <p><span>Illustrator</span></p>
+                        </div>
+
+                    </div>
+                    <div class="icon" onclick="view_skill()">
+                        <span id="icon"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="work" id="work">
+            <div class="work-done" id="wokdone">
+                <div class="each-work anim">
+                    <div class="work-items"><span>01.</span>
+                        <p> Sun direct app redesign</p>
+                    </div>
+                    <div class="icon"><a href=""><i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="line"></div>
+                </div>
+                <div class="each-work anim">
+                    <div class="work-items"><span>02.</span>
+                        <p> movie ticket booking app design</p>
+                    </div>
+                    <div class="icon"><a href=""><i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="line"></div>
+                </div>
+                <div class="each-work anim">
+                    <div class="work-items"><span>03.</span>
+                        <p>udemy app redesign</p>
+                    </div>
+                    <div class="icon"><a href=""><i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="line"></div>
+                </div>
+                <div class="each-work anim">
+                    <div class="work-items"><span>04.</span>
+                        <p> udemy app redesign</p>
+                    </div>
+                    <div class="icon"><a href=""><i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="line"></div>
+                </div>
+                <div class="each-work anim">
+                    <div class="work-items"><span>05.</span>
+                        <p> udemy app redesign</p>
+                    </div>
+                    <div class="icon"><a href=""><i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="line"></div>
+                </div>
+                <div class="each-work anim">
+                    <div class="work-items"><span>06.</span>
+                        <p> udemy app redesign</p>
+                    </div>
+                    <div class="icon"><a href=""><i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="line"></div>
+                </div>
+                <div class="each-work anim">
+                    <div class="work-items"><span>07.</span>
+                        <p> udemy app redesign</p>
+                    </div>
+                    <div class="icon"><a href=""><i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="line"></div>
+                </div>
+
+            </div>
+            <div class="more mouse-hover" onclick="showmore()" id="more">
+                <p id="more_down1">more</p>
+                <p id="more_up1">less</p>
+                <div class="icon"><i class='bx bx-chevron-down' id="more_down2"></i>
+                    <i class='bx bx-chevron-up' id="more_up2"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-me" id="contact">
+            <div class="contact">
+                
+                <div class="each-media contact-anim">
+                    <a href="">behance</a>
+                </div>
+                <div class="each-media contact-anim">
+                    <a href="">linkedin</a>
+                </div>
+                <div class="each-media contact-anim">
+                    <a href="">mail</a>
+                </div>
+            </div>
+
+            <div class="back-to-top mouse-hover">
+                <div class="icon"><a href="#home"><i class='bx bx-chevron-up'></i></a></div>
+                <p>back to top</p>
+
+            </div>
+            <div class="copy-right-act mouse-hover">
+                <p> <span>©</span>2024 all rights reserved</p>
+            </div>
+            <div class="copy-right-owner mouse-hover">
+                <p>Developed by Ajith NM</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./script.js"></script>
+
+</body>
+
+</html>

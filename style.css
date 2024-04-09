@@ -1,0 +1,1530 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400..900&display=swap');
+
+@font-face {
+    font-family: 'ClashDisplay';
+    src: url('./assets/fonts/ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Regular.woff') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    color: #ffffff;
+
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    background-color: #141414;
+    scroll-behavior: smooth;
+    cursor: none;
+
+}
+
+.cursor {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+
+    z-index: 999;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.outer {
+    border: 3px solid #f7f7f720;
+    transition: 250ms ease-out;
+    opacity: 0;
+}
+
+.inner {
+    width: 5px;
+    height: 5px;
+    background: aliceblue;
+    opacity: 0;
+}
+
+.cursor.hover {
+    transform: translate(-50%, -50%) scale(2);
+}
+
+.inner.hover {
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.outer.hover {
+    border: 1px solid gray;
+    background: #f7f7f7;
+    mix-blend-mode: difference;
+}
+
+header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+
+    background-color: #141414;
+    z-index: 100;
+    border-bottom: 1px solid #232221;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+}
+#menubar2{
+    display: none;
+}
+header nav ul li {
+    display: inline-block;
+    list-style: none;
+    margin: 20px 44px;
+    position: relative;
+
+}
+
+header nav ul li a {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: #6f6f6f;
+    font-size: clamp(16px, 20px, 20px);
+    cursor: none;
+}
+
+nav ul li::after {
+    content: '';
+    height: 2px;
+    width: 100%;
+    transform: scaleX(0);
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    background-color: white;
+    transition: 0.7s;
+}
+
+header nav ul .h-l-line .underline {
+    content: '';
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -1.5px;
+    background-color: white;
+    transition: 0.7s;
+}
+
+header nav ul li a:hover,
+header nav ul .h-l-line a {
+    color: #fff;
+}
+
+header nav ul li:hover::after {
+    transform: scaleX(1);
+}
+
+header nav .menu {
+    display: none;
+}
+
+
+/*  */
+
+.home-about {
+    height: 112vh;
+}
+
+.home-about .home {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.home-about .home .title h1 {
+    font-size: 9.8vw;
+    color: #e2e2e2;
+    font-family: "Orbitron";
+    font-weight: 600;
+    height: fit-content;
+    width: fit-content;
+    position: relative;
+
+}
+
+.home-about .home .title.title-anim {
+    transform: scale(1);
+    transition: .5s;
+}
+
+.home .title h1::after {
+    content: '';
+    height: 3px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    background-color: white;
+    transform: scale(0);
+    transition: 0.5s;
+}
+
+.home .title h1::before {
+    content: '';
+    height: 3px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    background-color: white;
+}
+
+.home .title h1:hover::before {
+    width: 0%;
+}
+
+.home .title h1:hover::after {
+    transform: scale(1);
+
+}
+
+.about-me {
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 7vh;
+    z-index: 4;
+    transition: .5s;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    width: 91%;
+    margin: 57px auto;
+    position: relative;
+    transition: .5s;
+}
+
+.about-me .profile .about {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 75px;
+    border: 3px solid #232221;
+    height: 390px;
+    width: 96%;
+    overflow: hidden;
+}
+
+.about-me .profile .about.border {
+    border: none;
+}
+
+.about-me .profile .icon {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #9b9b9b;
+    cursor: pointer;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(7px);
+    cursor: none;
+}
+
+.about-me .profile .icon span i {
+    font-size: 35px;
+    font-style: normal;
+    transition: .5s;
+    color: #000;
+
+}
+
+.about-me .profile .about .content {
+    margin-left: 30px;
+    width: 64.5%;
+    height: 90%;
+    padding-left: 10px;
+
+}
+
+.about-me .profile .about .content h2 {
+    width: fit-content;
+    font-size: 50px;
+    margin: 40px 0 15px 0;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    color: #dfd7d7;
+
+}
+
+.about-me .content .text p {
+    color: #dfd7d7;
+    font-family: "ClashDisplay";
+}
+
+.about-me .content .text,
+.work .work-done .each-work .work-items span {
+    font-size: 27px;
+    text-align: left;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.about .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-position: center;
+}
+
+.about .image {
+    margin-right: 33px;
+    width: 357px;
+    height: 340px;
+    border-radius: 65px;
+    position: relative;
+    overflow: hidden;
+
+
+}
+
+.about .image img:hover {
+    opacity: .6;
+}
+
+.about .image:hover::before {
+    opacity: 1;
+}
+
+.about .image::before {
+    content: 'CONTACT ME';
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    font-size: 24px;
+    font-weight: 700;
+    z-index: 7;
+    color: #e2e2e2;
+    opacity: 0;
+    transition: 0.5s;
+    /* transform: translate(102px, 155px); */
+
+}
+
+.about .skill {
+    margin-left: 110px;
+    width: 357px;
+    height: 340px;
+    border-radius: 50px;
+    padding: 20px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px solid #232221;
+    color: #3e3d3d;
+
+}
+
+.about .tools {
+    margin-right: 110px;
+    width: 48.5%;
+    height: 340px;
+    display: none;
+    flex-direction: column;
+    border-radius: 50px;
+    padding: 20px;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px solid #232221;
+    color: #3e3d3d;
+
+}
+
+.about .tools h3,
+.about .skill h3 {
+    font-size: 27px;
+
+    font-family: "Orbitron", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.about .tools p,
+.about .skill p {
+    font-size: 20px;
+    padding: 0 40px;
+    font-family: "ClashDisplay", "Orbitron";
+    font-weight: 300;
+    font-style: normal;
+    display: flex;
+    align-items: center;
+    background-color: aliceblue;
+    color: #3e3d3d;
+    height: 50px;
+    border-radius: 50px;
+
+
+}
+
+.about .tools p {
+    width: 100%;
+    justify-content: space-between;
+    background-color: transparent;
+}
+
+.about .tools p span {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    border-radius: 50px;
+    background-color: aliceblue;
+    font-family: "ClashDisplay", "Orbitron";
+    color: #3e3d3d;
+}
+
+/* workk */
+.work {
+
+    width: 100%;
+    min-height: 94vh;
+    max-height: fit-content;
+    text-transform: capitalize;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.work .work-done .each-work,
+.contact-me .contact .each-media {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+
+}
+
+.work .work-done {
+    width: 100%;
+    margin-top: 20px;
+    height: 77vh;
+    overflow: hidden;
+}
+
+.work .work-done .each-work {
+    margin: 55px 76px;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+}
+
+.work .work-done .each-work .work-items {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+}
+
+.work .work-done .each-work .line {
+    content: '';
+    background-color: #232221;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: -20px;
+    left: 0;
+    transition: .5s;
+}
+
+.work .work-done .each-work p {
+    width: fit-content;
+    font-size: 50px;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    margin-left: 10px;
+}
+
+.work .work-done .each-work .icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: #9b9b9b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: none;
+}
+
+.work .work-done .each-work .icon a {
+    cursor: none;
+}
+
+.work .work-done .each-work .icon a i {
+    color: #000;
+    font-size: 35px;
+    font-style: normal;
+    transition: .5s;
+    cursor: none;
+}
+
+.work .more,
+.contact-me .back-to-top {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.work .more {
+    margin-top: 20px;
+}
+
+.work .more p,
+.contact-me .back-to-top p {
+    font-family: "Orbitron", sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+#more_up1 {
+    display: none;
+}
+
+#more_up2 {
+    display: none;
+}
+
+.work .more .icon,
+.contact-me .back-to-top .icon {
+    font-size: 38px;
+    width: fit-content;
+    cursor: none;
+}
+
+/* contacttt */
+.contact-me {
+    width: 100%;
+    height: 93vh;
+    padding: 5vh 10vh 0 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.contact-me .copy-right-act {
+    position: absolute;
+    bottom: 15px;
+    left: 1%;
+    word-spacing: 3px;
+    text-transform: capitalize;
+
+    font-size: 11px;
+}
+
+
+.contact-me .copy-right-owner {
+    position: absolute;
+    word-spacing: 4px;
+    bottom: 15px;
+    right: 1.5%;
+    font-size: 11px;
+}
+
+.contact-me .contact {
+
+    height: 75vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+
+}
+
+.contact-me .back-to-top .icon a {
+    color: #9b9b9b;
+    cursor: none;
+}
+.contact-me .contact .each-media a{
+    width: fit-content;
+        font-size: clamp(34px, 8.8vw, 135px);
+        text-transform: uppercase;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        transition: 1s; 
+        text-decoration: none;
+        cursor: none;
+    }
+    .contact-me .contact .each-media{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+
+.about-me .profile .icon:hover,
+.work .work-done .each-work .icon:hover {
+    background-color: aliceblue;
+}
+
+.about-me .profile .icon:active,
+.work .work-done .each-work .icon:active {
+    transform: scale(.9);
+}
+
+.work .work-done .each-work .icon a i:hover,
+.about-me .icon span i:hover {
+
+    transform: rotate(-45deg);
+}
+
+
+
+
+/* animations */
+
+.main {
+    height: 38vh;
+    width: 100%;
+    background: transparent;
+}
+
+.home {
+    position: sticky;
+    top: 10vh;
+    animation: blur .5s .5s forwards;
+    animation-timeline: view(92vh);
+}
+
+.about-me {
+    margin-top: 25vh;
+
+    justify-content: center;
+    animation: animate forwards;
+    animation-timeline: view(10vh);
+}
+
+.about-me .profile {
+    transition: 4s;
+    opacity: 0;
+    animation: scroll-reveal forwards;
+    animation-timeline: view();
+    animation-range-start: cover 10vh;
+    animation-range-end: 60vh;
+    transition: .5s;
+}
+
+.about-me .about .content {
+    transform: translate(90%, 0%);
+    transition: 1s;
+}
+
+.about-me .about .image {
+    z-index: 3;
+    transform: translate(-100%, 0%);
+    transition: 1s;
+}
+
+.about-me .about.about-anim .content {
+    transform: translate(0);
+
+}
+
+.about-me .about.about-anim .image {
+    transform: translate(0);
+
+}
+
+
+.work .work-done .each-work .line {
+    width: 0;
+    transition: 1s;
+}
+
+.work .work-done .each-work p,
+.work .work-done .each-work span {
+    opacity: 0;
+    transform: translateY(71px);
+    transition: .5s;
+}
+
+.work .work-done .each-work .icon {
+    opacity: 0;
+    transform: translateY(71px);
+    transition: .7s;
+}
+
+
+.work .work-done .each-work.anim .line {
+    width: 100%;
+}
+
+.work .work-done .each-work.anim p,
+.work .work-done .each-work.anim span {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.work .work-done .each-work.anim .icon {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.contact-me .contact .each-media a {
+    opacity: 0;
+    transform: translateX(50%);
+    transition: .7s;
+}
+
+.contact-me .contact .each-media.contact-anim a {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@keyframes animate {
+
+    100% {
+        margin-top: 0;
+        opacity: 1;
+
+    }
+}
+
+@keyframes scroll-reveal {
+    100% {
+        opacity: 1;
+        transform: scale(1);
+
+    }
+}
+
+@keyframes blur {
+    35% {
+
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+
+    }
+}
+
+
+#preloader {
+    width: 100%;
+    height: 120vh;
+    background-color: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#loader {
+    width: 40%;
+    height: 10px;
+    border: 3px solid gray;
+    border-radius: 50px;
+    position: relative;
+    transform: translateY(-60px);
+}
+
+#loader::before {
+    content: '0%';
+    position: absolute;
+    top: -25px;
+    left: 0;
+    color: aliceblue;
+}
+
+#loader::after {
+    content: '100%';
+    position: absolute;
+    top: -25px;
+    right: 0;
+    color: aliceblue;
+}
+
+#progress {
+    width: 3%;
+    height: 100%;
+    background-color: aliceblue;
+    animation: loader 2s forwards;
+    transition: 2s;
+}
+
+@keyframes loader {
+    100% {
+        width: 100%;
+    }
+}
+@media(max-width:1294px) {
+    .work .work-done {
+        width: 100%;
+        margin-top: 20px;
+        height: 73vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 35px;
+    }
+
+    .work .more {
+        margin-top: 40px;
+    }
+
+    .work .more p,
+    .contact-me .back-to-top p {
+        font-size: 24px;
+
+    }
+
+    .work .work-done .each-work span {
+        font-size: 20px;
+    }
+
+    .work .work-done .each-work .icon {
+        width: 65px;
+        height: 65px;
+
+    }
+
+    .work .work-done .each-work .icon a{
+        cursor: none;
+    }
+
+    .work .work-done .each-work .icon a i {
+        font-size: 28px;
+    }
+
+    .about .skill {
+        margin-left: 30px;
+        width: 340px;
+        height: 340px;
+        padding: 10px;
+
+    }
+
+    .about .tools {
+        margin-right: 30px;
+        width: 48.5%;
+        height: 340px;
+        padding: 10px;
+
+    }
+
+    .about .tools h3,
+    .about .skill h3 {
+        font-size: 27px;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    .about .tools p,
+    .about .skill p {
+        font-size: 17px;
+        padding: 0 30px;
+        height: 50px;
+    }
+
+    .about .tools p span {
+        width: fit-content;
+        height: 100%;
+        padding: 0 30px;
+
+    }
+
+
+
+}
+
+@media(max-width:1075px) {
+    .about-me {
+        margin-top: 29vh;
+
+    }
+
+    .about-me .profile .icon {
+        transform: translateX(15%) scale(.7);
+    }
+
+    .about-me .profile .about .content h2 {
+        font-size: 40px;
+
+
+    }
+
+    .about-me .content .text p {
+        font-size: 23px;
+    }
+
+    .about .image {
+        width: 300px;
+        height: 280px;
+    }
+
+
+}
+
+@media (max-width:980px) {
+    .about-me {
+        margin-top: 31vh;
+
+    }
+
+    .work .work-done {
+        width: 100%;
+        margin-top: 45px;
+        /* height: 78vh; */
+        overflow: hidden;
+    }
+
+    .work .work-done .each-work {
+        margin: 55px 76px;
+        position: relative;
+    }
+
+    .about .skill {
+        margin-left: 20px;
+        width: 300px;
+        height: 340px;
+        padding: 10px;
+
+    }
+
+    .about .tools {
+        margin-right: 20px;
+        width: 48.5%;
+        height: 340px;
+        padding: 10px;
+
+    }
+
+    .about .tools h3,
+    .about .skill h3 {
+        font-size: 25px;
+    }
+
+    .about .tools p,
+    .about .skill p {
+        font-size: 17px;
+        padding: 0 10px;
+        height: 50px;
+    }
+
+    .about .tools p span {
+        width: fit-content;
+        height: 100%;
+        padding: 0 10px;
+
+    }
+}
+
+@media (max-width:793px) {
+    .work .work-done {
+        width: 100%;
+        margin-top: 60px;
+        height: 75vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 33px;
+    }
+
+    .work .work-done .each-work {
+        margin: 55.5px 76px;
+        position: relative;
+    }
+
+    .work .more {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width:768px) {
+    header nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 1% 0;
+
+    }
+
+    header nav .menu {
+        display: inline-block;
+        margin-right: 3%;
+        transition: .5s;
+        z-index: 99;
+    }
+
+    header nav .menu i {
+        color: aliceblue;
+        font-size: 2.5rem;
+
+    }
+
+    #menu_cross {
+        display: none;
+        color: #292929;
+    }
+#menubar1{
+    display: none;
+}
+#menubar2{
+    display: flex;
+    flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        position: absolute;
+        width: 0;
+        height: 0;
+        background-color: aliceblue;
+        border-radius: 20px 0 0 20px;
+        top: 0;
+        right: 0;
+        padding: 10% 0;
+        overflow: hidden;
+        transition: .5s;
+}
+    
+
+    header nav ul li {
+        display: inline-block;
+        list-style: none;
+        margin: 20px 44px;
+        position: relative;
+
+    }
+
+    header nav ul li a {
+        color: black;
+    }
+
+    /* m-hover */
+
+    .inner.m-hover {
+        background: #141414;
+    }
+
+    .outer.m-hover {
+        border: 1px solid #141414;
+
+    }
+
+    nav ul li::after {
+        background-color: #141414;
+    }
+
+    header nav ul .h-l-line .underline {
+        content: '';
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: -1.5px;
+        background-color: #141414;
+        transition: 0.7s;
+    }
+
+    header nav ul li a:hover,
+    header nav ul .h-l-line a {
+        color: #141414;
+    }
+
+
+    .about-me {
+        margin-top: 35vh;
+
+    }
+
+    .profile {
+        margin: 40px auto;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0;
+    }
+
+    .about-me .profile .about {
+        border: none;
+        height: 87%;
+        width: 96%;
+        border-radius: 0;
+        flex-direction: column-reverse;
+
+    }
+
+    .about-me .profile .about .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 85%;
+        padding-left: 0;
+        margin-left: 0;
+        transform: translate(0);
+    }
+
+    .about-me .about .image {
+        width: 60%;
+        height: 200px;
+        border-radius: 30px;
+        transform: translate(0);
+        margin-right: 0;
+    }
+
+    .about-me .profile .icon {
+        position: absolute;
+        bottom: -25%;
+        left: 40%;
+    }
+
+    .about-me .profile .icon span i {
+        font-size: 25px;
+    }
+
+
+    .about-me .profile .about .content h2 {
+        font-size: clamp(26px, 3.3vw, 40px);
+
+    }
+
+    .about-me .content .text p {
+        font-size: clamp(18px, 2.7vw, 30px);
+    }
+
+    .about .skill {
+        margin-left: 10px;
+        width: 300px;
+        height: 250px;
+        padding: 8px;
+    }
+
+    .about .tools {
+        margin-right: 10px;
+        width: 340px;
+        height: 250px;
+        padding: 8px;
+        margin-bottom: 20px;
+    }
+
+    .about .tools h3,
+    .about .skill h3 {
+        font-size: 23px;
+    }
+
+    .about .tools p,
+    .about .skill p {
+        font-size: 15px;
+        padding: 0 5px;
+        height: 30px;
+    }
+
+    .about .tools p span {
+        width: fit-content;
+        height: 100%;
+        padding: 0 5px;
+
+    }
+
+
+
+
+
+    .work .more p,
+    .contact-me .back-to-top p {
+        font-size: 20px;
+
+    }
+
+    .work .work-done {
+        width: 100%;
+        margin-top: 100px;
+        height: 73vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 32px;
+    }
+
+    .work .work-done .each-work {
+        margin: 53.5px 76px;
+        position: relative;
+    }
+
+    .work .more {
+        margin-top: 20px;
+    }
+
+    .contact-me {
+        padding: 5vh 4vh 0 4vh;
+
+    }
+
+}
+
+@media (max-width:695px) {
+    .work {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .work .work-done {
+        width: 100%;
+        margin-top: 8vh;
+        height: 75vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 30px;
+    }
+
+    .work .work-done .each-work {
+        margin: 60px 76px;
+        position: relative;
+    }
+
+
+}
+
+
+@media (max-width:672px) {
+
+
+    .about-me .profile {
+        transition: 4s;
+        opacity: 0;
+        animation: scroll-reveal ease-in forwards;
+        animation-timeline: view();
+        animation-range-start: cover 10vh;
+        animation-range-end: 60vh;
+        transition: .5s;
+    }
+
+    .work .work-done {
+        width: 100%;
+        margin-top: 15vh;
+        height: 59vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 29px;
+    }
+
+    .work .work-done .each-work {
+        margin: 59px 76px;
+    }
+
+
+    .contact-me .contact {
+        height: 62vh;
+    }
+
+    .contact-me .copy-right-act {
+        position: absolute;
+        bottom: 20px;
+        left: 1%;
+        word-spacing: 3px;
+        text-transform: capitalize;
+        font-size: 9px;
+    }
+
+    .contact-me .copy-right-act p span {
+        font-size: 12px;
+    }
+
+    .contact-me .copy-right-owner {
+        position: absolute;
+        word-spacing: 4px;
+        bottom: 20px;
+        right: 1.5%;
+        font-size: 9px;
+    }
+
+}
+
+@media (max-width:635px) {
+    .work .work-done {
+        width: 100%;
+        margin-top: 15vh;
+        height: 70vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 26px;
+    }
+
+    .work .work-done .each-work {
+        margin: 50px 50px;
+    }
+}
+
+@media (max-width:544px) {
+    .about-me {
+        margin-top: 39vh;
+
+    }
+
+    .work .work-done {
+        width: 100%;
+        margin-top: 20vh;
+        height: 60vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 25px;
+    }
+
+    .work .work-done .each-work {
+        margin: 61px 50px;
+    }
+    .work .work-done .each-work .work-items span {
+        font-size: 19px;
+    }
+
+    .work .work-done .each-work .icon {
+        width: 55px;
+        height: 55px;
+
+    }
+
+    .work .work-done .each-work .icon a i {
+        font-size: 24px;
+    }
+
+
+
+    .about .skill {
+        margin-left: 10px;
+        width: 250px;
+        height: 240px;
+        padding: 8px;
+    }
+
+    .about .tools {
+        margin-right: 10px;
+        width: 280px;
+        height: 240px;
+        padding: 8px;
+        margin-bottom: 20px;
+    }
+
+    .about .tools h3,
+    .about .skill h3 {
+        font-size: 23px;
+    }
+
+    .about .tools p,
+    .about .skill p {
+        font-size: 14px;
+        padding: 0 5px;
+        height: 30px;
+    }
+
+    .about .tools p span {
+        width: fit-content;
+        height: 100%;
+        padding: 0 5px;
+
+    }
+
+    .contact-me .contact .each-media a{
+            font-weight: 900;
+        }
+        .contact-me {
+            height: 55vh;
+            padding: 5vh 2vh 1vh 2vh;
+        }
+        .contact-me .contact {
+            height:28vh;
+        }
+
+        #loader {
+            transform: translateY(-150px);
+        }
+}
+
+@media (max-width:405px) {
+    .work .work-done {
+        width: 100%;
+        margin-top: 14vh;
+        height: 62vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 23px;
+    }
+
+    .work .work-done .each-work {
+        margin: 60px 10px;
+    }
+
+    .work .work-done .each-work .work-items span {
+        font-size: 19px;
+    }
+
+    .work .work-done .each-work .icon {
+        width: 55px;
+        height: 50px;
+
+    }
+
+    .work .work-done .each-work .icon a i {
+        font-size: 24px;
+    }
+
+}
+
+@media (max-width:360px) {
+    .about-me .profile .icon {
+        position: absolute;
+        bottom: -18%;
+        left: 35%;
+    }
+
+    .about-me {
+        margin-top: 39vh;
+
+    }
+
+    .about .image::before {
+        top: 40%;
+        left: 20%;
+        font-size: 22px;
+
+
+    }
+
+    .work .more p,
+    .contact-me .back-to-top p {
+        font-size: 18px;
+
+    }
+    .work .work-done {
+        width: 100%;
+        margin-top: 20vh;
+        height: 60vh;
+        overflow: hidden;
+
+    }
+
+    .work .work-done .each-work p {
+        font-size: 25px;
+    }
+
+    .work .work-done .each-work {
+        margin: 61px 10px;
+    }
+
+    .work .work-done .each-work .work-items span {
+        font-size: 19px;
+    }
+
+    .work .work-done .each-work .icon {
+        width: 55px;
+        height: 50px;
+
+    }
+
+    .work .work-done .each-work .icon a i {
+        font-size: 24px;
+    }
+
+
+    .about .skill {
+        margin-left: 10px;
+        width: 230px;
+        height: 240px;
+        padding: 8px;
+    }
+
+    .about .tools {
+        margin-right: 10px;
+        width: 250px;
+        height: 240px;
+        padding: 8px;
+        margin-bottom: 20px;
+    }
+
+    .about .tools h3,
+    .about .skill h3 {
+        font-size: 20px;
+    }
+
+    .about .tools p,
+    .about .skill p {
+        font-size: 13px;
+        padding: 0 3px;
+        height: 30px;
+    }
+
+    .about .tools p span {
+        width: fit-content;
+        height: 100%;
+        padding: 0 3px;
+
+    }
+}
