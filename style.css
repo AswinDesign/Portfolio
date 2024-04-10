@@ -7,7 +7,6 @@
     font-display: swap;
     font-style: normal;
 }
-
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +15,7 @@
     font-weight: 300;
     font-style: normal;
     color: #ffffff;
-
+--work-section-height:77vh;
 }
 
 body::-webkit-scrollbar {
@@ -317,26 +316,24 @@ header nav .menu {
 
 }
 
-.about .image img:hover {
-    opacity: .6;
+.about .image:hover img{
+    opacity: 0.5;
 }
-
-.about .image:hover::before {
-    opacity: 1;
+.about .image:hover a{
+    opacity: .9;
 }
-
-.about .image::before {
-    content: 'CONTACT ME';
+.about .image a {
     position: absolute;
     top: 40%;
     left: 20%;
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 700;
     z-index: 7;
     color: #e2e2e2;
+    cursor: none;
     opacity: 0;
     transition: 0.5s;
-    /* transform: translate(102px, 155px); */
+    text-decoration: none;
 
 }
 
@@ -437,11 +434,10 @@ header nav .menu {
     padding: 0 20px;
 
 }
-
 .work .work-done {
     width: 100%;
     margin-top: 20px;
-    height: 77vh;
+    height: var(--work-section-height);
     overflow: hidden;
 }
 
@@ -803,11 +799,14 @@ header nav .menu {
         width: 100%;
     }
 }
+
 @media(max-width:1294px) {
+    *{
+        --work-section-height:73vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 20px;
-        height: 73vh;
         overflow: hidden;
 
     }
@@ -969,10 +968,12 @@ header nav .menu {
 }
 
 @media (max-width:793px) {
+    *{
+        --work-section-height:75vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 60px;
-        height: 75vh;
         overflow: hidden;
 
     }
@@ -1185,11 +1186,13 @@ header nav .menu {
         font-size: 20px;
 
     }
-
+    
+    *{
+        --work-section-height:73vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 100px;
-        height: 73vh;
         overflow: hidden;
 
     }
@@ -1221,11 +1224,13 @@ header nav .menu {
         justify-content: center;
         align-items: center;
     }
-
+    
+    *{
+        --work-section-height:75vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 8vh;
-        height: 75vh;
         overflow: hidden;
 
     }
@@ -1255,11 +1260,13 @@ header nav .menu {
         animation-range-end: 60vh;
         transition: .5s;
     }
-
+    
+    *{
+        --work-section-height:59vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 15vh;
-        height: 59vh;
         overflow: hidden;
 
     }
@@ -1301,10 +1308,12 @@ header nav .menu {
 }
 
 @media (max-width:635px) {
+    *{
+        --work-section-height:70vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 15vh;
-        height: 70vh;
         overflow: hidden;
 
     }
@@ -1323,11 +1332,13 @@ header nav .menu {
         margin-top: 39vh;
 
     }
-
+    
+*{
+        --work-section-height:60vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 20vh;
-        height: 60vh;
         overflow: hidden;
 
     }
@@ -1406,10 +1417,12 @@ header nav .menu {
 }
 
 @media (max-width:405px) {
+    *{
+        --work-section-height:62vh;
+    }
     .work .work-done {
         width: 100%;
         margin-top: 14vh;
-        height: 62vh;
         overflow: hidden;
 
     }
@@ -1466,7 +1479,6 @@ header nav .menu {
     .work .work-done {
         width: 100%;
         margin-top: 20vh;
-        height: 60vh;
         overflow: hidden;
 
     }

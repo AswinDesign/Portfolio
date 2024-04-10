@@ -155,7 +155,7 @@ function showmore() {
         more_up2.style.display = "inline-block";
         more_sec.style.flexDirection = "column-reverse"
     } else {
-        workdone.style.height = "78vh";
+        workdone.style.height = "var(--work-section-height)";
         more_down1.style.display = "inline-block";
         more_up1.style.display = "none";
         more_down2.style.display = "inline-block";
