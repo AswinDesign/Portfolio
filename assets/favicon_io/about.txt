@@ -1,6 +1,0 @@
-This favicon was generated using the following font:
-
-- Font Title: Shizuru
-- Font Author: Copyright 2020 The Shizuru Project Authors (https://github.com/shibuyafont/shizuru-font), all rights reserved.
-- Font Source: https://fonts.gstatic.com/s/shizuru/v10/O4ZSFGfvnxFiCA3i30IJlgUTj2A.ttf
-- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
