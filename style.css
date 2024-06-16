@@ -27,7 +27,15 @@ body {
     min-height: 100vh;
     max-height: 100vh;
     overflow: hidden;
+<<<<<<< HEAD
     background-color: #000;
+=======
+<<<<<<< HEAD
+    background-color: #000000;
+=======
+    background-color: #000000;
+>>>>>>> af908ea08af199389bf0ff58b04ff5fa6bc65352
+>>>>>>> 464ed1592275cc4a9629e7086a35f46c00f64da4
     scroll-behavior: smooth;
     cursor: none;
 
