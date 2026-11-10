@@ -1580,8 +1580,8 @@ html.has-custom-cursor .cursor-ring.is-pressed {
     --spin-x: 0deg;
     --spin-y: 0deg;
     --sd-depth: 12px;
-    --sd-tilt-x: -10deg;
-    --sd-tilt-y: -22deg;
+    --sd-tilt-x: -5deg;
+    --sd-tilt-y: -11deg;
     --sd-shape: polygon(
         5% 0%,
         88% 0%,
@@ -1608,6 +1608,14 @@ html.has-custom-cursor .cursor-ring.is-pressed {
 
 .hero-poster.is-tilting {
     transition: transform 0.12s ease-out;
+}
+
+/* Hover lifts the card into the original, stronger cinematic tilt. */
+@media (hover: hover) and (pointer: fine) {
+    .hero-poster-wrap:hover .hero-poster {
+        --sd-tilt-x: -10deg;
+        --sd-tilt-y: -22deg;
+    }
 }
 
 .hero-poster.is-spinning {
