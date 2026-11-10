@@ -28,7 +28,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
         if (released) return;
         released = true;
 
-        const minTime = reduceMotion ? 120 : 1900;
+        const minTime = reduceMotion ? 120 : 1000;
         const delay = Math.max(0, minTime - (performance.now() - started));
 
         window.setTimeout(() => {
@@ -47,6 +47,114 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 
     // Never hold the page hostage if a slow asset stalls the load event.
     window.setTimeout(release, 6000);
+})();
+
+/* ------------------------------------------------------------
+   Mobile menu
+   ------------------------------------------------------------ */
+(function mobileMenu() {
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('mobileMenu');
+    if (!toggle || !menu) return;
+
+    const links = menu.querySelectorAll('a[href^="#"]');
+    let open = false;
+
+    function setOpen(next, restoreFocus) {
+        open = next;
+        body.classList.toggle('menu-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        menu.setAttribute('aria-hidden', String(!open));
+        if (!open && restoreFocus) toggle.focus();
+    }
+
+    toggle.addEventListener('click', () => setOpen(!open, false));
+
+    links.forEach((link) => {
+        link.addEventListener('click', () => setOpen(false, false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && open) setOpen(false, true);
+    });
+
+    const desktop = window.matchMedia('(min-width: 1025px)');
+    desktop.addEventListener('change', (event) => {
+        if (event.matches && open) setOpen(false, false);
+    });
+})();
+
+/* ------------------------------------------------------------
+   Header glass density
+   ------------------------------------------------------------ */
+(function headerGlass() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let ticking = false;
+
+    function paint() {
+        ticking = false;
+        header.classList.toggle('is-scrolled', (window.scrollY || 0) > 24);
+    }
+
+    function requestPaint() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(paint);
+    }
+
+    paint();
+    window.addEventListener('scroll', requestPaint, { passive: true });
+    window.addEventListener('resize', requestPaint);
+})();
+
+/* ------------------------------------------------------------
+   Active top-bar option (scroll spy)
+   ------------------------------------------------------------ */
+(function navSpy() {
+    const links = Array.from(document.querySelectorAll('.main-nav a[data-nav]'));
+    if (!links.length) return;
+
+    const sections = links
+        .map((link) => document.getElementById(link.dataset.nav))
+        .filter(Boolean);
+    if (!sections.length) return;
+
+    let ticking = false;
+    let current = null;
+
+    function paint() {
+        ticking = false;
+        const probe = window.innerHeight * 0.42;
+        let next = null;
+
+        for (const section of sections) {
+            if (section.getBoundingClientRect().top <= probe) next = section.id;
+        }
+
+        if (next === current) return;
+        current = next;
+
+        links.forEach((link) => {
+            const on = link.dataset.nav === current;
+            link.classList.toggle('is-active', on);
+            if (on) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+        });
+    }
+
+    function requestPaint() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(paint);
+    }
+
+    paint();
+    window.addEventListener('scroll', requestPaint, { passive: true });
+    window.addEventListener('resize', requestPaint);
+    window.addEventListener('load', requestPaint);
 })();
 
 /* ------------------------------------------------------------
@@ -536,6 +644,11 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     window.addEventListener('pointerdown', (event) => {
         if (event.pointerType === 'touch') return;
         ring.classList.add('is-pressed');
+
+        // The hero card is a drag surface; skip the click burst there
+        // so grabbing and spinning it stays clean.
+        if (event.target.closest && event.target.closest('.hero-poster-wrap')) return;
+
         clickBurst(event.clientX, event.clientY);
     });
 
@@ -646,13 +759,15 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 
     wrap.addEventListener('pointerenter', (event) => {
         if (event.pointerType && event.pointerType !== 'mouse') return;
-        if (wrap.classList.contains('is-dragging')) return;
+        if (wrap.classList.contains('is-dragging') || wrap.classList.contains('is-spinning')) return;
+        if (poster.classList.contains('is-spinning') || poster.classList.contains('is-springing')) return;
         poster.classList.add('is-tilting');
     });
 
     wrap.addEventListener('pointermove', (event) => {
         if (event.pointerType && event.pointerType !== 'mouse') return;
-        if (wrap.classList.contains('is-dragging')) return;
+        if (wrap.classList.contains('is-dragging') || wrap.classList.contains('is-spinning')) return;
+        if (poster.classList.contains('is-spinning') || poster.classList.contains('is-springing')) return;
         const rect = wrap.getBoundingClientRect();
         if (!rect.width || !rect.height) return;
 
@@ -733,7 +848,8 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     wrap.addEventListener('pointerdown', (event) => {
         if (event.pointerType && event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
         if (event.button !== 0 || pointerId !== null) return;
-        if (wrap.classList.contains('is-flying')) return;
+        if (wrap.classList.contains('is-flying') || wrap.classList.contains('is-spinning')) return;
+        if (poster && (poster.classList.contains('is-spinning') || poster.classList.contains('is-springing'))) return;
         event.preventDefault();
 
         pointerId = event.pointerId;
@@ -777,6 +893,122 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     });
     wrap.addEventListener('dragstart', (event) => event.preventDefault());
     window.addEventListener('blur', release);
+})();
+
+/* ------------------------------------------------------------
+   Hero poster right-drag spin
+   Hold the right mouse button and drag to spin the card in
+   either direction. Releasing springs it back to the resting
+   angle with a small overshoot.
+   ------------------------------------------------------------ */
+(function heroSpin() {
+    const wrap = document.querySelector('.hero-poster-wrap');
+    const poster = document.getElementById('heroPoster');
+    if (!wrap || !poster || !finePointer) return;
+
+    const X_RATE = 0.7;
+    const Y_RATE = 0.85;
+    let pointerId = null;
+    let startX = 0;
+    let startY = 0;
+    let spinX = 0;
+    let spinY = 0;
+    let settleTimer = 0;
+    let menuTimer = 0;
+
+    function blockMenu(event) {
+        event.preventDefault();
+    }
+
+    function setSpin(x, y) {
+        poster.style.setProperty('--spin-x', `${x.toFixed(2)}deg`);
+        poster.style.setProperty('--spin-y', `${y.toFixed(2)}deg`);
+    }
+
+    function settle() {
+        if (pointerId === null) return;
+        const id = pointerId;
+        pointerId = null;
+
+        if (wrap.hasPointerCapture(id)) wrap.releasePointerCapture(id);
+        wrap.classList.remove('is-spinning');
+
+        // The context menu can fire on right-button release after the
+        // pointer has left the card, so keep blocking it briefly.
+        window.clearTimeout(menuTimer);
+        menuTimer = window.setTimeout(() => {
+            window.removeEventListener('contextmenu', blockMenu, true);
+        }, 450);
+        window.clearTimeout(settleTimer);
+
+        if (reduceMotion) {
+            setSpin(0, 0);
+            poster.classList.remove('is-spinning');
+            return;
+        }
+
+        // Drop whole turns before springing back so the card settles
+        // along the shortest path instead of unwinding every spin.
+        spinX -= Math.round(spinX / 360) * 360;
+        spinY -= Math.round(spinY / 360) * 360;
+        setSpin(spinX, spinY);
+        void poster.offsetWidth;
+
+        poster.classList.remove('is-spinning');
+        poster.classList.add('is-springing');
+        void poster.offsetWidth;
+
+        setSpin(0, 0);
+
+        settleTimer = window.setTimeout(() => {
+            poster.classList.remove('is-springing');
+        }, 1150);
+    }
+
+    wrap.addEventListener('contextmenu', blockMenu);
+
+    wrap.addEventListener('pointerdown', (event) => {
+        if (event.button !== 2 || pointerId !== null) return;
+        if (wrap.classList.contains('is-flying') || wrap.classList.contains('is-dragging')) return;
+        if (poster.classList.contains('is-springing')) return;
+
+        event.preventDefault();
+
+        pointerId = event.pointerId;
+        wrap.setPointerCapture(pointerId);
+        wrap.classList.add('is-spinning');
+        poster.classList.add('is-spinning');
+
+        window.clearTimeout(menuTimer);
+        window.addEventListener('contextmenu', blockMenu, true);
+
+        startX = event.clientX;
+        startY = event.clientY;
+        spinX = 0;
+        spinY = 0;
+        setSpin(0, 0);
+
+        poster.style.setProperty('--rx', '0deg');
+        poster.style.setProperty('--ry', '0deg');
+    });
+
+    wrap.addEventListener('pointermove', (event) => {
+        if (pointerId === null || event.pointerId !== pointerId) return;
+
+        spinX = (event.clientY - startY) * X_RATE;
+        spinY = (event.clientX - startX) * Y_RATE;
+        setSpin(spinX, spinY);
+    });
+
+    wrap.addEventListener('pointerup', (event) => {
+        if (event.pointerId === pointerId) settle();
+    });
+    wrap.addEventListener('pointercancel', (event) => {
+        if (event.pointerId === pointerId) settle();
+    });
+    window.addEventListener('blur', () => {
+        if (pointerId !== null) settle();
+    });
 })();
 
 /* ------------------------------------------------------------

@@ -11,7 +11,8 @@
     <meta property="og:description" content="Graphic designer, UI/UX thinker and visual storyteller. Six projects. One designer. Infinite stories.">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/svg+xml" href="./assets/favicon/logo.svg?v=2">
-    <link rel="stylesheet" href="./style.css?v=64">
+    <link rel="preload" as="image" href="./assets/image/hero-masked.webp" fetchpriority="high">
+    <link rel="stylesheet" href="./style.css?v=71">
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -80,20 +81,21 @@
             <span class="brand-mark"><svg viewBox="0 0 1755 1371" aria-hidden="true"><use href="#brand-mark"></use></svg></span>
         </a>
 
-        <nav class="main-nav" aria-label="Primary navigation">
-            <a href="#origin" data-nav="origin"><span>01</span>Origin</a>
-            <a href="#filmography" data-nav="filmography"><span>02</span>Work</a>
-            <a href="#posterwall" data-nav="posterwall"><span>03</span>Posters</a>
-            <a href="#arsenal" data-nav="arsenal"><span>04</span>Suit Up</a>
-            <a href="#contact" data-nav="contact"><span>05</span>Contact</a>
-        </nav>
+        <div class="header-glass">
+            <nav class="main-nav" aria-label="Primary navigation">
+                <a href="#origin" data-nav="origin"><span>01</span>Origin</a>
+                <a href="#filmography" data-nav="filmography"><span>02</span>Work</a>
+                <a href="#posterwall" data-nav="posterwall"><span>03</span>Posters</a>
+                <a href="#arsenal" data-nav="arsenal"><span>04</span>Suit Up</a>
+                <a href="#contact" data-nav="contact"><span>05</span>Contact</a>
+            </nav>
 
-        <div class="header-right">
-            <span class="status-pill"><span class="pulse" aria-hidden="true"></span>Open for freelance</span>
-            <a href="#contact" class="header-cta">Let's talk <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
-            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-                <span></span><span></span>
-            </button>
+            <div class="header-right">
+                <a href="#contact" class="header-cta">Let's talk <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+                    <span></span><span></span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -147,11 +149,26 @@
                     <div class="hero-poster-wrap">
                         <div class="hero-poster-parallax">
                             <figure class="hero-poster" id="heroPoster">
+                                <span class="sd-edge" aria-hidden="true">
+                                    <i style="--z: -6px"></i>
+                                    <i style="--z: -5px"></i>
+                                    <i style="--z: -4px"></i>
+                                    <i style="--z: -3px"></i>
+                                    <i style="--z: -2px"></i>
+                                    <i style="--z: -1px"></i>
+                                    <i style="--z: 0px"></i>
+                                    <i style="--z: 1px"></i>
+                                    <i style="--z: 2px"></i>
+                                    <i style="--z: 3px"></i>
+                                    <i style="--z: 4px"></i>
+                                    <i style="--z: 5px"></i>
+                                    <i style="--z: 6px"></i>
+                                </span>
                                 <span class="sd-face sd-face--front">
                                     <span class="sd-slider" aria-hidden="true"><i></i></span>
                                     <span class="sd-label">
-                                        <img class="hero-poster-img" src="./assets/image/hero-clean.jpg" alt="Aswin — portrait in red light" width="1023" height="1537">
-                                        <img class="sd-mask" src="./assets/image/hero-masked.jpg" alt="" aria-hidden="true" width="1024" height="1535" decoding="async">
+                                        <img class="hero-poster-img" src="./assets/image/hero-clean.webp" alt="Aswin — portrait in red light" width="640" height="962" decoding="async">
+                                        <img class="sd-mask" src="./assets/image/hero-masked.webp" alt="" aria-hidden="true" width="640" height="959" fetchpriority="high" decoding="async">
                                         <span class="sd-label-tag" aria-hidden="true"><b>A.</b><span>Portrait archive</span><em>01</em></span>
                                         <span class="sd-label-foot" aria-hidden="true"><span>SDXC · 64GB</span><span>Rec ● 2026</span></span>
                                     </span>
@@ -162,17 +179,15 @@
                                     <span class="sd-serial" aria-hidden="true">ASWIN-64 · Made for screens</span>
                                 </span>
                                 <span class="sd-face sd-face--back" aria-hidden="true">
-                                    <span class="sd-back-mark">A.</span>
-                                    <span class="sd-back-copy">
+                                    <span class="sd-back-texture"></span>
+                                    <span class="sd-back-emblem">
+                                        <svg viewBox="0 0 1755 1371" aria-hidden="true"><use href="#brand-mark"></use></svg>
+                                    </span>
+                                    <span class="sd-back-caption">
                                         <b>ASWIN</b>
-                                        <span>Portfolio memory card</span>
-                                        <em>64GB · Class 10 · 2026</em>
+                                        <span>Portfolio memory card · SDXC 64GB</span>
                                     </span>
-                                    <span class="sd-pins">
-                                        <i></i><i></i><i></i><i></i>
-                                        <i></i><i></i><i></i><i></i>
-                                    </span>
-                                    <span class="sd-serial">Write-protect · Do not bend</span>
+                                    <span class="sd-serial">The Designer-Verse · Do not bend</span>
                                 </span>
                             </figure>
                         </div>
@@ -232,7 +247,7 @@
                 <div class="origin-grid">
                     <figure class="origin-photo reveal">
                         <div class="photo-frame">
-                            <img src="./assets/image/hero-clean.jpg" alt="Aswin — portrait in red light" width="1023" height="1537" loading="lazy">
+                            <img src="./assets/image/hero-clean-960.webp" srcset="./assets/image/hero-clean.webp 640w, ./assets/image/hero-clean-960.webp 960w" sizes="(max-width: 900px) 88vw, 510px" alt="Aswin — portrait in red light" width="960" height="1442" loading="lazy" decoding="async">
                             <span class="photo-halftone" aria-hidden="true"></span>
                             <span class="corner corner--tl" aria-hidden="true"></span>
                             <span class="corner corner--tr" aria-hidden="true"></span>
@@ -454,7 +469,7 @@
                         <span class="poster-feature-spine" aria-hidden="true">The print room · 2025 archive</span>
                         <a class="poster-feature" id="posterFeature" href="https://www.behance.net/aswin-design" target="_blank" rel="noopener">
                             <span class="poster-feature-media">
-                                <img id="posterFeatureImg" src="./assets/image/posters/al-nassr-matchday.jpg" alt="Al Nassr matchday poster with Cristiano Ronaldo in yellow and flames" width="640" height="800">
+                                <img id="posterFeatureImg" src="./assets/image/posters/al-nassr-matchday.webp" alt="Al Nassr matchday poster with Cristiano Ronaldo in yellow and flames" width="640" height="800" loading="lazy" decoding="async">
                                 <span class="poster-feature-flash" aria-hidden="true"></span>
                                 <span class="poster-feature-corners" aria-hidden="true"></span>
                                 <span class="poster-feature-open" aria-hidden="true">View on Behance ↗</span>
@@ -475,114 +490,114 @@
                             <span>16 frames</span>
                         </div>
                         <div class="poster-sheet-grid" aria-label="Poster contact sheet">
-                            <button class="poster-thumb is-active" type="button" aria-current="true" aria-label="Feature Al Nassr · Matchday" data-src="./assets/image/posters/al-nassr-matchday.jpg" data-index="01" data-title="Al Nassr · Matchday" data-tag="Matchday" data-alt="Al Nassr matchday poster with Cristiano Ronaldo in yellow and flames">
+                            <button class="poster-thumb is-active" type="button" aria-current="true" aria-label="Feature Al Nassr · Matchday" data-src="./assets/image/posters/al-nassr-matchday.webp" data-index="01" data-title="Al Nassr · Matchday" data-tag="Matchday" data-alt="Al Nassr matchday poster with Cristiano Ronaldo in yellow and flames">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/al-nassr-matchday.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/al-nassr-matchday.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">01</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Al Nassr</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Bellingham · El Clásico" data-src="./assets/image/posters/bellingham-el-clasico.jpg" data-index="02" data-title="Bellingham · El Clásico" data-tag="Player story" data-alt="Bellingham El Clásico poster with arms outstretched in pink and blue light">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Bellingham · El Clásico" data-src="./assets/image/posters/bellingham-el-clasico.webp" data-index="02" data-title="Bellingham · El Clásico" data-tag="Player story" data-alt="Bellingham El Clásico poster with arms outstretched in pink and blue light">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/bellingham-el-clasico.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/bellingham-el-clasico.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">02</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Bellingham</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature El Clásico" data-src="./assets/image/posters/el-clasico.jpg" data-index="03" data-title="El Clásico" data-tag="Rivalry" data-alt="El Clásico collage poster with Barcelona and Real Madrid players">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature El Clásico" data-src="./assets/image/posters/el-clasico.webp" data-index="03" data-title="El Clásico" data-tag="Rivalry" data-alt="El Clásico collage poster with Barcelona and Real Madrid players">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/el-clasico.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/el-clasico.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">03</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">El Clásico</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Thank You, Íñigo" data-src="./assets/image/posters/thank-you-inigo.jpg" data-index="04" data-title="Thank You, Íñigo" data-tag="Farewell" data-alt="Thank You Inigo Martinez farewell poster in green and red">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Thank You, Íñigo" data-src="./assets/image/posters/thank-you-inigo.webp" data-index="04" data-title="Thank You, Íñigo" data-tag="Farewell" data-alt="Thank You Inigo Martinez farewell poster in green and red">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thank-you-inigo.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/thank-you-inigo.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">04</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Íñigo</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Messi · World Cup" data-src="./assets/image/posters/messi-world-cup.jpg" data-index="05" data-title="Messi · World Cup" data-tag="Cape of a legend" data-alt="Messi World Cup poster with a cape and golden trophy">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Messi · World Cup" data-src="./assets/image/posters/messi-world-cup.webp" data-index="05" data-title="Messi · World Cup" data-tag="Cape of a legend" data-alt="Messi World Cup poster with a cape and golden trophy">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/messi-world-cup.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/messi-world-cup.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">05</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Messi</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature 90+6" data-src="./assets/image/posters/raphinha-90-6.jpg" data-index="06" data-title="90+6" data-tag="Raphinha" data-alt="Raphinha 90 plus 6 comeback poster in blue and red">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature 90+6" data-src="./assets/image/posters/raphinha-90-6.webp" data-index="06" data-title="90+6" data-tag="Raphinha" data-alt="Raphinha 90 plus 6 comeback poster in blue and red">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/raphinha-90-6.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/raphinha-90-6.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">06</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">90+6</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Messi · Argentina" data-src="./assets/image/posters/messi-argentina.jpg" data-index="07" data-title="Messi · Argentina" data-tag="Champions" data-alt="Messi Argentina champions poster in light blue and white">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Messi · Argentina" data-src="./assets/image/posters/messi-argentina.webp" data-index="07" data-title="Messi · Argentina" data-tag="Champions" data-alt="Messi Argentina champions poster in light blue and white">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/messi-argentina.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/messi-argentina.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">07</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Argentina</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Golden Boy" data-src="./assets/image/posters/golden-boy.jpg" data-index="08" data-title="Golden Boy" data-tag="Lamine Yamal" data-alt="Lamine Yamal Golden Boy poster in black and gold">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Golden Boy" data-src="./assets/image/posters/golden-boy.webp" data-index="08" data-title="Golden Boy" data-tag="Lamine Yamal" data-alt="Lamine Yamal Golden Boy poster in black and gold">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/golden-boy.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/golden-boy.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">08</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Golden Boy</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Spider-Verse" data-src="./assets/image/posters/spider-verse.jpg" data-index="09" data-title="Spider-Verse" data-tag="Portal edit" data-alt="Footballer emerging from a glowing spider-verse portal">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Spider-Verse" data-src="./assets/image/posters/spider-verse.webp" data-index="09" data-title="Spider-Verse" data-tag="Portal edit" data-alt="Footballer emerging from a glowing spider-verse portal">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/spider-verse.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/spider-verse.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">09</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Spider-Verse</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature The Theatre" data-src="./assets/image/posters/the-theatre.jpg" data-index="10" data-title="The Theatre" data-tag="Barça" data-alt="Barcelona players celebrating on a theatre stage with red curtains">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature The Theatre" data-src="./assets/image/posters/the-theatre.webp" data-index="10" data-title="The Theatre" data-tag="Barça" data-alt="Barcelona players celebrating on a theatre stage with red curtains">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/the-theatre.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/the-theatre.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">10</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Theatre</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Argentina · Legends" data-src="./assets/image/posters/argentina-legends.jpg" data-index="11" data-title="Argentina · Legends" data-tag="CBF" data-alt="Argentina legends poster with the CBF crest">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Argentina · Legends" data-src="./assets/image/posters/argentina-legends.webp" data-index="11" data-title="Argentina · Legends" data-tag="CBF" data-alt="Argentina legends poster with the CBF crest">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/argentina-legends.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/argentina-legends.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">11</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Legends</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Purple Reign" data-src="./assets/image/posters/purple-reign.jpg" data-index="12" data-title="Purple Reign" data-tag="Portugal" data-alt="Cristiano Ronaldo Portugal poster in purple lighting">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Purple Reign" data-src="./assets/image/posters/purple-reign.webp" data-index="12" data-title="Purple Reign" data-tag="Portugal" data-alt="Cristiano Ronaldo Portugal poster in purple lighting">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/purple-reign.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/purple-reign.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">12</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Purple</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Web Slinger" data-src="./assets/image/posters/web-slinger.jpg" data-index="13" data-title="Web Slinger" data-tag="Red web study" data-alt="Abstract red and black spider-web sports poster">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Web Slinger" data-src="./assets/image/posters/web-slinger.webp" data-index="13" data-title="Web Slinger" data-tag="Red web study" data-alt="Abstract red and black spider-web sports poster">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/web-slinger.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/web-slinger.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">13</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Web</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Salah · Lightning" data-src="./assets/image/posters/salah-lightning.jpg" data-index="14" data-title="Salah · Lightning" data-tag="Liverpool" data-alt="Mohamed Salah poster surrounded by blue lightning">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Salah · Lightning" data-src="./assets/image/posters/salah-lightning.webp" data-index="14" data-title="Salah · Lightning" data-tag="Liverpool" data-alt="Mohamed Salah poster surrounded by blue lightning">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/salah-lightning.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/salah-lightning.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">14</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Salah</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Bellingham · Sunset" data-src="./assets/image/posters/bellingham-sunset.jpg" data-index="15" data-title="Bellingham · Sunset" data-tag="Madrid" data-alt="Bellingham poster in a golden sunset stadium">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Bellingham · Sunset" data-src="./assets/image/posters/bellingham-sunset.webp" data-index="15" data-title="Bellingham · Sunset" data-tag="Madrid" data-alt="Bellingham poster in a golden sunset stadium">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/bellingham-sunset.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/bellingham-sunset.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">15</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Sunset</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Yamal × Álvarez" data-src="./assets/image/posters/yamal-alvarez.jpg" data-index="16" data-title="Yamal × Álvarez" data-tag="Rain" data-alt="Lamine Yamal and Julian Alvarez poster in the rain">
+                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Yamal × Álvarez" data-src="./assets/image/posters/yamal-alvarez.webp" data-index="16" data-title="Yamal × Álvarez" data-tag="Rain" data-alt="Lamine Yamal and Julian Alvarez poster in the rain">
                                 <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/yamal-alvarez.jpg" alt="" width="640" height="800" loading="lazy">
+                                    <img src="./assets/image/posters/thumbs/yamal-alvarez.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
                                     <span class="poster-thumb-num" aria-hidden="true">16</span>
                                 </span>
                                 <span class="poster-thumb-label" aria-hidden="true">Yamal</span>
@@ -715,6 +730,6 @@
         </div>
     </footer>
 
-    <script src="./script.js?v=51"></script>
+    <script src="./script.js?v=56"></script>
 </body>
 </html>
