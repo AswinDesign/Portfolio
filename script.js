@@ -1304,7 +1304,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     const MAX_PULL = 260;
     const media = window.matchMedia('(max-width: 680px)');
 
-    let rest = media.matches ? 66 : 72;
+    let rest = media.matches ? 40 : 58;
     let y = rest;
     let sway = 0;
     let dragging = false;
@@ -1503,7 +1503,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     });
 
     function updateRest() {
-        const next = media.matches ? 66 : 72;
+        const next = media.matches ? 40 : 58;
         if (next === rest) return;
         const delta = next - rest;
         rest = next;

@@ -1206,7 +1206,7 @@ html.has-custom-cursor .cursor-ring.is-pressed {
     min-height: 100svh;
     align-items: center;
     overflow: hidden;
-    padding: calc(var(--header-h) + clamp(16px, 2.4vh, 30px)) 0 clamp(82px, 9.6vh, 104px);
+    padding: calc(var(--header-h) + clamp(16px, 2.4vh, 30px)) 0 clamp(36px, 4.4vh, 52px);
     background:
         radial-gradient(820px 680px at 50% 46%, rgba(230, 36, 41, 0.16), transparent 68%),
         radial-gradient(760px 560px at 8% 92%, rgba(60, 107, 255, 0.07), transparent 64%),
@@ -2001,92 +2001,6 @@ body.is-landed .hero-poster-img,
     .hero-poster-wrap:hover .hero-poster-parallax {
         scale: 1.045;
     }
-}
-
-.hero-bottom {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 4;
-    padding: 18px 0;
-    border-top: 1px solid var(--line);
-    background: linear-gradient(to top, rgba(6, 6, 7, 0.88), rgba(6, 6, 7, 0.16));
-}
-
-.hero-bottom-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    color: var(--muted);
-    font-size: 7px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-}
-
-.scroll-cue {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1 1 auto;
-}
-
-.scroll-line {
-    position: relative;
-    width: 46px;
-    height: 1px;
-    overflow: hidden;
-    background: var(--line-strong);
-}
-
-.scroll-line::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--red);
-    transform-origin: left;
-    animation: scrollLine 2.2s var(--ease-io) infinite;
-}
-
-.billing {
-    flex: 0 0 auto;
-    text-align: center;
-}
-
-.billing p {
-    color: rgba(242, 237, 227, 0.48);
-    font-size: 6.5px;
-    letter-spacing: 0.22em;
-    line-height: 1.8;
-}
-
-.billing p:first-child {
-    color: var(--ink);
-    font-family: var(--font-head);
-    font-size: 8px;
-    font-weight: 500;
-    letter-spacing: 0.32em;
-}
-
-.timecode {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    flex: 1 1 auto;
-    color: rgba(242, 237, 227, 0.62);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.08em;
-}
-
-.tc-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--red);
-    animation: blink 1.4s steps(1) infinite;
 }
 
 /* ---------- Marquee ---------- */
@@ -4821,25 +4735,6 @@ body.is-loaded .intro {
     }
 }
 
-@keyframes scrollLine {
-    0% {
-        transform: scaleX(0);
-        transform-origin: left;
-    }
-    45% {
-        transform: scaleX(1);
-        transform-origin: left;
-    }
-    55% {
-        transform: scaleX(1);
-        transform-origin: right;
-    }
-    100% {
-        transform: scaleX(0);
-        transform-origin: right;
-    }
-}
-
 @keyframes marquee {
     to {
         transform: translateX(-50%);
@@ -4995,10 +4890,6 @@ body.is-loaded .intro {
         gap: 18px 24px;
     }
 
-    .hero-bottom .billing {
-        display: none;
-    }
-
     .hero-web--tl {
         width: 95vw;
         opacity: 0.24;
@@ -5089,7 +4980,7 @@ body.is-loaded .intro {
     }
 
     .hero {
-        padding: calc(var(--header-h) + 22px) 0 112px;
+        padding: calc(var(--header-h) + 22px) 0 44px;
     }
 
     .hero-inner {
@@ -5195,18 +5086,6 @@ body.is-loaded .intro {
 
     .hero-poster-wrap {
         width: min(280px, 78vw);
-    }
-
-    .hero-bottom {
-        padding: 14px 0;
-    }
-
-    .hero-bottom-inner {
-        font-size: 6.5px;
-    }
-
-    .scroll-line {
-        width: 32px;
     }
 
     .marquee {
@@ -5455,10 +5334,6 @@ body.is-loaded .intro {
     .pc-line {
         font-size: 2.2rem;
     }
-
-    .hero-bottom-inner .timecode {
-        display: none;
-    }
 }
 
 /* ---------- Poster wall responsive ---------- */
@@ -5682,18 +5557,26 @@ body.is-loaded .intro {
 
 /* ------------------------------------------------------------
    Hanging spider theme switch
-   A thread hangs from the top edge. Pull the spider down past
-   the threshold and release to swap themes; the spring snaps it
-   back like a rubber ball on a string.
+   The thread is anchored to the bottom-right edge of the header
+   bar (not the top of the viewport, so it never hides behind the
+   glass). Pull the spider down past the threshold and release to
+   swap themes; the spring snaps it back like a rubber ball.
    ------------------------------------------------------------ */
 .theme-spider {
     position: fixed;
-    top: 0;
-    left: 50%;
+    top: 72px;
+    right: max(52px, calc((100vw - 1360px) / 2 + 30px));
+    left: auto;
     z-index: 89;
     width: 0;
     height: 0;
     pointer-events: none;
+    transition: top 0.4s var(--ease);
+}
+
+/* Follow the header when it tightens up on scroll. */
+.site-header.is-scrolled ~ .theme-spider {
+    top: 68px;
 }
 
 .theme-spider-rig {
@@ -5764,14 +5647,15 @@ body.is-loaded .intro {
 .theme-spider-hint {
     position: absolute;
     top: 50%;
-    left: calc(100% - 2px);
+    right: calc(100% + 4px);
+    left: auto;
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 6px;
     letter-spacing: 0.26em;
     opacity: 0.5;
     pointer-events: none;
-    text-indent: 0.26em;
+    text-align: right;
     text-transform: uppercase;
     transform: translateY(-50%);
     transition: color 0.3s var(--ease), opacity 0.3s var(--ease);
@@ -5812,6 +5696,15 @@ html[data-theme="light"] .theme-spider-body {
 }
 
 @media (max-width: 680px) {
+    .theme-spider {
+        top: 66px;
+        right: 32px;
+    }
+
+    .site-header.is-scrolled ~ .theme-spider {
+        top: 64px;
+    }
+
     .theme-spider-body {
         width: 30px;
         height: 30px;
@@ -5961,18 +5854,6 @@ html[data-theme="light"] .hero-slate-rule {
 
 html[data-theme="light"] .hero-slate-copy {
     color: rgba(20, 19, 23, 0.55);
-}
-
-html[data-theme="light"] .hero-bottom {
-    background: linear-gradient(to top, rgba(244, 241, 234, 0.96), rgba(244, 241, 234, 0.12));
-}
-
-html[data-theme="light"] .billing p {
-    color: rgba(20, 19, 23, 0.5);
-}
-
-html[data-theme="light"] .timecode {
-    color: rgba(20, 19, 23, 0.62);
 }
 
 /* The SD card is a dark product, so it keeps its own light tokens. */
