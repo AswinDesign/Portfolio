@@ -6,13 +6,23 @@
     <title>Aswin — The Designer-Verse | Graphic Designer &amp; UI/UX</title>
     <meta name="description" content="The portfolio of Aswin — a graphic designer and UI/UX designer crafting cinematic brands, posters, apps and websites. Movie-brained. Detail-obsessed.">
     <meta name="author" content="Aswin">
-    <meta name="theme-color" content="#060607">
+    <meta name="theme-color" content="#060607" id="themeColor">
     <meta property="og:title" content="Aswin — The Designer-Verse">
     <meta property="og:description" content="Graphic designer, UI/UX thinker and visual storyteller. Six projects. One designer. Infinite stories.">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/svg+xml" href="./assets/favicon/logo.svg?v=2">
     <link rel="preload" as="image" href="./assets/image/hero-masked.webp" fetchpriority="high">
-    <link rel="stylesheet" href="./style.css?v=74">
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('aswin-theme');
+                if (saved === 'light' || saved === 'dark') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                }
+            } catch (error) { /* storage can be blocked */ }
+        })();
+    </script>
+    <link rel="stylesheet" href="./style.css?v=76">
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -117,6 +127,19 @@
                 </div>
                 <p>The Designer-Verse · 2026</p>
             </div>
+        </div>
+    </div>
+
+    <!-- Hanging spider theme switch -->
+    <div class="theme-spider" id="themeSpider">
+        <div class="theme-spider-rig" id="themeSpiderRig">
+            <span class="theme-spider-thread" aria-hidden="true"></span>
+            <button class="theme-spider-hit" id="themeSpiderHit" type="button" aria-label="Drag down to switch to the light theme" aria-pressed="false">
+                <span class="theme-spider-body" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" focusable="false"><use href="#spider"></use></svg>
+                </span>
+                <span class="theme-spider-hint" id="themeSpiderHint" aria-hidden="true">PULL</span>
+            </button>
         </div>
     </div>
 
@@ -719,17 +742,17 @@
                     <p class="pc-secret" id="secretMsg" aria-live="polite">You found the A. I'm open for freelance adventures — let's build something worth watching.</p>
                 </div>
             </div>
+
+            <footer class="site-footer">
+                <div class="container footer-inner">
+                    <p class="footer-brand">ASWIN <span>— The Designer-Verse</span></p>
+                    <p class="footer-copy">© <span id="year">2026</span> Aswin. All rights reserved. <span class="footer-dot">·</span> Original site by <a href="https://ajith-nm.github.io/Portfolio/" target="_blank" rel="noopener">Ajith NM</a></p>
+                    <a href="#top" class="back-top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow-up"></use></svg></a>
+                </div>
+            </footer>
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <p class="footer-brand">ASWIN <span>— The Designer-Verse</span></p>
-            <p class="footer-copy">© <span id="year">2026</span> Aswin. All rights reserved. <span class="footer-dot">·</span> Original site by <a href="https://ajith-nm.github.io/Portfolio/" target="_blank" rel="noopener">Ajith NM</a></p>
-            <a href="#top" class="back-top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow-up"></use></svg></a>
-        </div>
-    </footer>
-
-    <script src="./script.js?v=57"></script>
+    <script src="./script.js?v=59"></script>
 </body>
 </html>

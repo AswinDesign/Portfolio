@@ -424,7 +424,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
             entry.target.classList.add('is-visible');
             observer.unobserve(entry.target);
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px 9% 0px' });
 
     items.forEach((item) => observer.observe(item));
 })();
@@ -645,9 +645,9 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
         if (event.pointerType === 'touch') return;
         ring.classList.add('is-pressed');
 
-        // The hero card is a drag surface; skip the click burst there
-        // so grabbing and spinning it stays clean.
-        if (event.target.closest && event.target.closest('.hero-poster-wrap')) return;
+        // The hero card and the theme spider are drag surfaces; skip
+        // the click burst there so grabbing them stays clean.
+        if (event.target.closest && event.target.closest('.hero-poster-wrap, #themeSpider')) return;
 
         clickBurst(event.clientX, event.clientY);
     });
@@ -656,6 +656,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     window.addEventListener('blur', () => setCursorVisibility(true));
 
     function cursorLabelFor(element) {
+        if (element.closest('#themeSpider')) return 'PULL';
         if (element.closest('.hero-poster-wrap')) return 'DRAG';
         if (element.closest('.poster-feature')) return 'VIEW';
         if (element.closest('.film-card, .poster-thumb, .poster-card')) return 'VIEW';
@@ -1042,58 +1043,80 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 })();
 
 /* ------------------------------------------------------------
-   Projector pass
-   A soft light band sweeps through each scene as it scrolls,
-   and the scene's top splice line lights up at the frame edge.
-   Sections stay flat: no tilt, scale or fade.
+   Stacked pages
+   Each scene scrolls normally, then pins with its bottom at the
+   viewport bottom. The next scene slides up over it like a new
+   sheet of paper, so the sections build a stack as you scroll.
+   Tall sections still scroll in full before they pin.
    ------------------------------------------------------------ */
-(function projectorPass() {
-    const scenes = Array.from(document.querySelectorAll('main > section:not(.hero)'));
-    if (!scenes.length) return;
+(function pageStack() {
+    const pages = Array.from(document.querySelectorAll('main > section'));
+    if (!pages.length || reduceMotion) return;
 
-    const clamp01 = (value) => Math.min(1, Math.max(0, value));
-    const smooth = (value) => value * value * (3 - 2 * value);
-
-    if (reduceMotion) {
-        scenes.forEach((scene) => {
-            scene.style.setProperty('--scan-x', '0.5');
-            scene.style.setProperty('--scene-edge', '0.55');
-        });
-        return;
-    }
-
-    let ticking = false;
+    let queued = false;
 
     function paint() {
-        ticking = false;
+        queued = false;
         const viewH = window.innerHeight;
-        const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
-        scenes.forEach((scene) => {
-            const top = scene.offsetTop - scrollY;
-            const height = scene.offsetHeight;
-            const travel = viewH + height;
-
-            // The beam crosses the scene once per full pass through frame.
-            const progress = clamp01((viewH - top) / travel);
-            scene.style.setProperty('--scan-x', smooth(progress).toFixed(3));
-
-            // The top splice line glows when the scene reaches the frame.
-            const edge = clamp01(1 - Math.abs(top - viewH * 0.2) / (viewH * 0.58));
-            scene.style.setProperty('--scene-edge', (0.22 + edge * 0.78).toFixed(3));
+        pages.forEach((page) => {
+            // Pin when the bottom edge of the page meets the viewport
+            // bottom, so the next page slides straight over it. Bottom
+            // padding is intentionally zero on sections, which keeps
+            // dead space out of the pinned frame.
+            const offset = Math.min(0, Math.round(viewH - page.offsetHeight));
+            page.style.setProperty('--stack-top', `${offset}px`);
         });
     }
 
     function requestPaint() {
-        if (ticking) return;
-        ticking = true;
+        if (queued) return;
+        queued = true;
         window.requestAnimationFrame(paint);
     }
 
     paint();
-    window.addEventListener('scroll', requestPaint, { passive: true });
+    pages.forEach((page) => page.classList.add('is-page-stack'));
+
     window.addEventListener('resize', requestPaint);
     window.addEventListener('load', requestPaint);
+
+    if ('ResizeObserver' in window) {
+        const observer = new ResizeObserver(requestPaint);
+        pages.forEach((page) => observer.observe(page));
+    }
+})();
+
+/* ------------------------------------------------------------
+   Section links — always land on the top of that stacked page
+   ------------------------------------------------------------ */
+(function sectionNav() {
+    document.addEventListener('click', (event) => {
+        if (event.defaultPrevented) return;
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+        const link = event.target.closest && event.target.closest('a[href^="#"]');
+        if (!link) return;
+
+        const hash = link.getAttribute('href');
+        if (!hash || hash === '#') return;
+
+        const id = decodeURIComponent(hash.slice(1));
+        const page = document.getElementById(id);
+        if (!page) return;
+        if (id !== 'top' && !page.matches('main > section')) return;
+
+        event.preventDefault();
+        const top = id === 'top' ? 0 : page.offsetTop;
+        window.scrollTo({
+            top,
+            behavior: reduceMotion ? 'auto' : 'smooth',
+        });
+
+        try {
+            window.history.replaceState(null, '', hash);
+        } catch (error) { /* file:// and privacy modes can block this */ }
+    });
 })();
 
 /* ------------------------------------------------------------
@@ -1260,5 +1283,238 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 (function year() {
     const el = document.getElementById('year');
     if (el) el.textContent = new Date().getFullYear();
+})();
+
+/* ------------------------------------------------------------
+   Theme switch — hanging spider
+   Pull the spider down past the threshold to swap between the
+   dark cinema theme and the paper theme. Release and it springs
+   back with a rubber-ball bounce. Keyboard: focus + Enter/Space.
+   ------------------------------------------------------------ */
+(function themeSpider() {
+    const spider = document.getElementById('themeSpider');
+    const hit = document.getElementById('themeSpiderHit');
+    const hint = document.getElementById('themeSpiderHint');
+    const meta = document.getElementById('themeColor');
+    if (!spider || !hit || !hint) return;
+
+    const root = document.documentElement;
+    const STORAGE_KEY = 'aswin-theme';
+    const THRESHOLD = 74;
+    const MAX_PULL = 260;
+    const media = window.matchMedia('(max-width: 680px)');
+
+    let rest = media.matches ? 66 : 72;
+    let y = rest;
+    let sway = 0;
+    let dragging = false;
+    let pointerId = null;
+    let startY = 0;
+    let startX = 0;
+    let startPull = 0;
+    let startSway = 0;
+    let lastY = rest;
+    let lastSway = 0;
+    let lastTime = 0;
+    let velocity = 0;
+    let swayVelocity = 0;
+    let maxPull = 0;
+    let lastPointerAt = 0;
+    let raf = 0;
+
+    function lightOn() {
+        return root.getAttribute('data-theme') === 'light';
+    }
+
+    function paint() {
+        spider.style.setProperty('--spider-y', `${y.toFixed(2)}px`);
+        spider.style.setProperty('--spider-sway', `${sway.toFixed(3)}deg`);
+    }
+
+    function syncUI() {
+        const light = lightOn();
+        hit.setAttribute('aria-pressed', String(light));
+        hit.setAttribute('aria-label', light
+            ? 'Drag down to switch to the dark theme'
+            : 'Drag down to switch to the light theme');
+        if (meta) meta.setAttribute('content', light ? '#f4f1ea' : '#060607');
+        if (!spider.classList.contains('is-armed')) hint.textContent = 'PULL';
+    }
+
+    function applyTheme(light, persist) {
+        if (light) root.setAttribute('data-theme', 'light');
+        else root.removeAttribute('data-theme');
+        syncUI();
+        if (!persist) return;
+        try {
+            localStorage.setItem(STORAGE_KEY, light ? 'light' : 'dark');
+        } catch (error) { /* storage can be blocked */ }
+    }
+
+    function settle() {
+        window.cancelAnimationFrame(raf);
+        raf = 0;
+
+        if (reduceMotion) {
+            y = rest;
+            sway = 0;
+            paint();
+            return;
+        }
+
+        // Damped springs: light underdamping for a couple of rubber
+        // bounces, plus a slower pendulum wobble on the thread.
+        const kY = 0.00016;
+        const dY = 0.005;
+        const kS = 0.00009;
+        const dS = 0.0025;
+        let vy = velocity;
+        let vs = swayVelocity;
+        let last = performance.now();
+
+        function tick(now) {
+            let dt = now - last;
+            last = now;
+            dt = Math.min(32, Math.max(0, dt));
+            if (!dt) {
+                raf = window.requestAnimationFrame(tick);
+                return;
+            }
+
+            vy += (-kY * (y - rest) - dY * vy) * dt;
+            y += vy * dt;
+            vs += (-kS * sway - dS * vs) * dt;
+            sway += vs * dt;
+
+            if (y < 10) {
+                y = 10;
+                vy = Math.abs(vy) * 0.35;
+            }
+
+            if (Math.abs(y - rest) < 0.2 && Math.abs(vy) < 0.02 &&
+                Math.abs(sway) < 0.08 && Math.abs(vs) < 0.004) {
+                y = rest;
+                sway = 0;
+                velocity = 0;
+                swayVelocity = 0;
+                paint();
+                raf = 0;
+                return;
+            }
+
+            paint();
+            raf = window.requestAnimationFrame(tick);
+        }
+
+        raf = window.requestAnimationFrame(tick);
+    }
+
+    function endDrag(event) {
+        if (!dragging) return;
+        if (event && event.pointerId !== undefined && event.pointerId !== pointerId) return;
+
+        const now = performance.now();
+        if (now - lastTime > 90) {
+            velocity = 0;
+            swayVelocity = 0;
+        }
+
+        const shouldSwitch = y - rest >= THRESHOLD;
+        const tapped = maxPull < 8;
+
+        dragging = false;
+        pointerId = null;
+        lastPointerAt = performance.now();
+        spider.classList.remove('is-dragging', 'is-armed');
+        document.body.classList.remove('is-spider-dragging');
+        hint.textContent = 'PULL';
+
+        if (shouldSwitch) {
+            applyTheme(!lightOn(), true);
+        } else if (tapped) {
+            // Simple tap/click toggles too, with a small tug.
+            applyTheme(!lightOn(), true);
+            y = rest + 34;
+            sway = 0;
+        }
+
+        settle();
+    }
+
+    hit.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        event.preventDefault();
+        window.cancelAnimationFrame(raf);
+        raf = 0;
+        dragging = true;
+        pointerId = event.pointerId;
+        startY = event.clientY;
+        startX = event.clientX;
+        startPull = y - rest;
+        startSway = sway;
+        lastY = y;
+        lastSway = sway;
+        lastTime = performance.now();
+        velocity = 0;
+        swayVelocity = 0;
+        maxPull = 0;
+        lastPointerAt = performance.now();
+        spider.classList.add('is-dragging');
+        document.body.classList.add('is-spider-dragging');
+        try {
+            hit.setPointerCapture(pointerId);
+        } catch (error) { /* capture is best-effort */ }
+    });
+
+    hit.addEventListener('pointermove', (event) => {
+        if (!dragging || event.pointerId !== pointerId) return;
+
+        const now = performance.now();
+        const dt = Math.max(8, now - lastTime);
+        const pull = Math.max(0, Math.min(MAX_PULL, startPull + (event.clientY - startY)));
+        const nextSway = Math.max(-18, Math.min(18, startSway + (event.clientX - startX) * 0.16));
+
+        y = rest + pull;
+        sway = nextSway;
+        maxPull = Math.max(maxPull, pull);
+        velocity = Math.max(-4, Math.min(4, (y - lastY) / dt));
+        swayVelocity = Math.max(-0.06, Math.min(0.06, (sway - lastSway) / dt));
+        lastY = y;
+        lastSway = sway;
+        lastTime = now;
+
+        const armed = pull >= THRESHOLD;
+        spider.classList.toggle('is-armed', armed);
+        hint.textContent = armed ? 'RELEASE' : 'PULL';
+        paint();
+    });
+
+    hit.addEventListener('pointerup', endDrag);
+    hit.addEventListener('pointercancel', endDrag);
+    hit.addEventListener('lostpointercapture', endDrag);
+
+    hit.addEventListener('click', (event) => {
+        if (event.detail !== 0 || performance.now() - lastPointerAt < 500) return;
+        applyTheme(!lightOn(), true);
+        y = rest + 34;
+        sway = 0;
+        paint();
+        settle();
+    });
+
+    function updateRest() {
+        const next = media.matches ? 66 : 72;
+        if (next === rest) return;
+        const delta = next - rest;
+        rest = next;
+        y += delta;
+        paint();
+    }
+
+    if (media.addEventListener) media.addEventListener('change', updateRest);
+    else if (media.addListener) media.addListener(updateRest);
+
+    paint();
+    syncUI();
 })();
 

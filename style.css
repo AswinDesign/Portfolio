@@ -294,69 +294,42 @@ body::-webkit-scrollbar-thumb:hover {
 
 .section {
     position: relative;
-    padding: 140px 0;
+    padding: 96px 0 0;
     border-top: 1px solid var(--line);
-    scroll-margin-top: calc(var(--header-h) + 16px);
+    scroll-margin-top: 0;
 }
 
-/* ---------- Projector pass (scroll-linked light, no 3D tilt) ---------- */
-main > section:not(.hero) {
-    --scan-x: 0;
-    --scene-edge: 0;
+/* ---------- Flat scenes / stacked pages ---------- */
+main > section {
     position: relative;
     isolation: isolate;
     overflow: hidden;
     overflow: clip;
 }
 
-/* A soft projector beam sweeps across the scene as it scrolls. */
-main > section:not(.hero)::before {
-    content: "";
-    position: absolute;
-    top: -10%;
-    bottom: -10%;
-    left: -60%;
-    z-index: -1;
-    width: 55%;
-    background:
-        linear-gradient(100deg,
-            transparent 0%,
-            transparent 38%,
-            rgba(255, 232, 224, 0.08) 46%,
-            rgba(255, 255, 255, 0.06) 50%,
-            rgba(255, 232, 224, 0.08) 54%,
-            transparent 62%,
-            transparent 100%),
-        linear-gradient(100deg,
-            transparent 0%,
-            rgba(255, 74, 78, 0.18) 32%,
-            rgba(255, 242, 236, 0.1) 50%,
-            rgba(255, 74, 78, 0.15) 68%,
-            transparent 100%);
-    transform: translate3d(calc(var(--scan-x) * 220%), 0, 0) skewX(-12deg);
-    pointer-events: none;
+/* Each scene behaves like a page: once its bottom reaches the
+   viewport bottom it pins, and the next page slides over it. */
+main > section.is-page-stack {
+    position: sticky;
+    top: var(--stack-top, 0px);
+    z-index: 1;
+    box-shadow: 0 -36px 72px rgba(0, 0, 0, 0.5);
 }
 
-/* Top hairline acts like a film splice: it lights up as the scene
-   reaches the frame, with a small lamp travelling along it. */
-main > section:not(.hero)::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 40;
-    height: 1px;
-    background:
-        radial-gradient(circle at calc(var(--scan-x) * 100%) 50%, rgba(255, 232, 228, 0.95) 0 1px, rgba(255, 74, 78, 0.7) 2px, transparent 20px),
-        linear-gradient(90deg, transparent, rgba(242, 237, 227, 0.24) 22%, rgba(255, 74, 78, 0.5) 50%, rgba(242, 237, 227, 0.24) 78%, transparent);
-    box-shadow: 0 0 18px rgba(255, 74, 78, 0.18);
-    opacity: var(--scene-edge);
-    pointer-events: none;
+/* The paper theme needs a much softer seam shadow, otherwise the
+   incoming page dims the captions sitting at the bottom of the
+   page underneath it. */
+html[data-theme="light"] main > section.is-page-stack {
+    box-shadow: 0 -24px 48px rgba(84, 66, 42, 0.1);
+}
+
+html[data-theme="light"] .work-footer p,
+html[data-theme="light"] .posterwall-foot p {
+    color: var(--muted-2);
 }
 
 .section-head {
-    margin-bottom: 72px;
+    margin-bottom: 44px;
 }
 
 .section-act {
@@ -2119,7 +2092,7 @@ body.is-landed .hero-poster-img,
 /* ---------- Marquee ---------- */
 .marquee {
     position: relative;
-    z-index: 5;
+    z-index: 1;
     overflow: hidden;
     padding: 11px 0;
     border-top: 1px solid var(--red-bright);
@@ -2165,7 +2138,7 @@ body.is-landed .hero-poster-img,
 .origin-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-    gap: 80px;
+    gap: 56px;
     align-items: center;
 }
 
@@ -2381,7 +2354,7 @@ body.is-landed .hero-poster-img,
 .stats {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-top: 88px;
+    margin-top: 56px;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
@@ -2429,9 +2402,9 @@ body.is-landed .hero-poster-img,
 /* ---------- Quote / intermission card ---------- */
 .quote-band {
     position: relative;
-    margin-top: 84px;
+    margin-top: 52px;
     overflow: hidden;
-    padding: 30px 46px 44px;
+    padding: 26px 40px 36px;
     border: 1px solid rgba(242, 237, 227, 0.12);
     background:
         radial-gradient(90% 160% at 4% 0%, rgba(230, 36, 41, 0.2), transparent 55%),
@@ -2581,7 +2554,7 @@ body.is-landed .hero-poster-img,
 .work-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 44px 26px;
+    gap: 34px 22px;
 }
 
 .film-card {
@@ -2787,8 +2760,8 @@ body.is-landed .hero-poster-img,
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    margin-top: 64px;
-    padding-top: 28px;
+    margin-top: 44px;
+    padding-top: 22px;
     border-top: 1px solid var(--line);
 }
 
@@ -3364,7 +3337,6 @@ body.is-landed .hero-poster-img,
 .posterwall {
     position: relative;
     overflow: hidden;
-    padding-bottom: 128px;
     background:
         radial-gradient(980px 620px at 50% 0%, rgba(230, 36, 41, 0.11), transparent 64%),
         radial-gradient(760px 520px at 92% 72%, rgba(60, 107, 255, 0.06), transparent 62%),
@@ -3452,7 +3424,7 @@ body.is-landed .hero-poster-img,
     position: relative;
     z-index: 1;
     width: var(--container);
-    margin: 54px auto 0;
+    margin: 38px auto 0;
 }
 
 .poster-room-head {
@@ -3982,8 +3954,8 @@ body.is-landed .hero-poster-img,
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    margin-top: 52px;
-    padding-top: 24px;
+    margin-top: 38px;
+    padding-top: 20px;
     border-top: 1px solid var(--line);
 }
 
@@ -4056,7 +4028,7 @@ body.is-landed .hero-poster-img,
 .arsenal-grid {
     display: grid;
     grid-template-columns: 1.02fr 0.98fr;
-    gap: 64px;
+    gap: 52px;
     align-items: start;
 }
 
@@ -4249,7 +4221,7 @@ body.is-landed .hero-poster-img,
 .contact-grid {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 70px;
+    gap: 52px;
     align-items: start;
 }
 
@@ -4393,8 +4365,8 @@ body.is-landed .hero-poster-img,
 
 /* ---------- Credits ---------- */
 .credits {
-    margin-top: 100px;
-    padding-top: 44px;
+    margin-top: 64px;
+    padding-top: 36px;
     border-top: 1px solid var(--line);
 }
 
@@ -4456,8 +4428,8 @@ body.is-landed .hero-poster-img,
 .post-credit {
     position: relative;
     overflow: hidden;
-    margin-top: 76px;
-    padding: 44px 24px;
+    margin-top: 48px;
+    padding: 36px 24px;
     border: 1px solid var(--line);
     background: rgba(255, 255, 255, 0.014);
     text-align: center;
@@ -4558,11 +4530,12 @@ body.is-landed .hero-poster-img,
     visibility: visible;
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer (inside the end-credits page) ---------- */
 .site-footer {
-    padding: 28px 0;
+    margin-top: 44px;
+    padding: 26px 0 34px;
     border-top: 1px solid var(--line);
-    background: #050506;
+    background: transparent;
 }
 
 .footer-inner {
@@ -4940,7 +4913,7 @@ body.is-loaded .intro {
     }
 
     .section {
-        padding: 110px 0;
+        padding: 84px 0 0;
     }
 
     .work-grid {
@@ -4953,17 +4926,17 @@ body.is-loaded .intro {
 
     .origin-grid {
         grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-        gap: 44px;
+        gap: 34px;
     }
 
     .arsenal-grid {
         grid-template-columns: 1fr;
-        gap: 48px;
+        gap: 42px;
     }
 
     .contact-grid {
         grid-template-columns: 1fr;
-        gap: 46px;
+        gap: 38px;
     }
 
     .contact-card {
@@ -5037,7 +5010,7 @@ body.is-loaded .intro {
 
     .origin-grid {
         grid-template-columns: 1fr;
-        gap: 56px;
+        gap: 40px;
     }
 
     .origin-photo {
@@ -5246,11 +5219,11 @@ body.is-loaded .intro {
     }
 
     .section {
-        padding: 88px 0;
+        padding: 80px 0 0;
     }
 
     .section-head {
-        margin-bottom: 48px;
+        margin-bottom: 32px;
     }
 
     .section-title {
@@ -5290,7 +5263,7 @@ body.is-loaded .intro {
     }
 
     .stats {
-        margin-top: 64px;
+        margin-top: 40px;
     }
 
     .stat {
@@ -5302,7 +5275,7 @@ body.is-loaded .intro {
     }
 
     .quote-band {
-        margin-top: 60px;
+        margin-top: 40px;
         padding: 24px 18px 32px;
         transform: none;
     }
@@ -5334,7 +5307,7 @@ body.is-loaded .intro {
         grid-template-columns: 1fr;
         max-width: 440px;
         margin-inline: auto;
-        gap: 36px;
+        gap: 30px;
     }
 
     .filmography .section-head,
@@ -5344,7 +5317,7 @@ body.is-loaded .intro {
     }
 
     .work-footer {
-        margin-top: 44px;
+        margin-top: 34px;
     }
 
     .art-word {
@@ -5424,8 +5397,8 @@ body.is-loaded .intro {
     }
 
     .credits {
-        margin-top: 64px;
-        padding-top: 34px;
+        margin-top: 44px;
+        padding-top: 28px;
     }
 
     .credits-title {
@@ -5446,7 +5419,7 @@ body.is-loaded .intro {
     }
 
     .post-credit {
-        margin-top: 56px;
+        margin-top: 38px;
         padding: 34px 18px;
     }
 
@@ -5458,6 +5431,11 @@ body.is-loaded .intro {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+    }
+
+    .site-footer {
+        margin-top: 32px;
+        padding: 22px 0 28px;
     }
 }
 
@@ -5516,7 +5494,7 @@ body.is-loaded .intro {
 
 @media (max-width: 680px) {
     .posterwall {
-        padding-bottom: 92px;
+        padding-bottom: 0;
     }
 
     .posterwall-bigword {
@@ -5525,7 +5503,7 @@ body.is-loaded .intro {
     }
 
     .poster-room {
-        margin-top: 40px;
+        margin-top: 30px;
     }
 
     .poster-room-head {
@@ -5697,12 +5675,371 @@ body.is-loaded .intro {
         transform: none !important;
     }
 
-    main > section::after {
-        display: none;
-    }
-
     .quote-beam {
         animation: none !important;
     }
 }
+
+/* ------------------------------------------------------------
+   Hanging spider theme switch
+   A thread hangs from the top edge. Pull the spider down past
+   the threshold and release to swap themes; the spring snaps it
+   back like a rubber ball on a string.
+   ------------------------------------------------------------ */
+.theme-spider {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 89;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.theme-spider-rig {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(var(--spider-sway, 0deg));
+    transform-origin: 0 0;
+    will-change: transform;
+}
+
+.theme-spider-thread {
+    position: absolute;
+    top: 0;
+    left: -0.5px;
+    width: 1px;
+    height: var(--spider-y, 96px);
+    background: linear-gradient(180deg, rgba(242, 237, 227, 0) 0%, rgba(242, 237, 227, 0.58) 14%, rgba(242, 237, 227, 0.26) 100%);
+    pointer-events: none;
+}
+
+.theme-spider-hit {
+    position: absolute;
+    top: var(--spider-y, 96px);
+    left: 0;
+    display: grid;
+    width: 54px;
+    height: 54px;
+    margin: -27px 0 0 -27px;
+    padding: 0;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--ink);
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.theme-spider-hit:active {
+    cursor: grabbing;
+}
+
+.theme-spider-body {
+    display: block;
+    width: 34px;
+    height: 34px;
+    filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.5));
+    transition: transform 0.28s var(--ease), filter 0.3s var(--ease);
+}
+
+.theme-spider-body svg {
+    width: 100%;
+    height: 100%;
+}
+
+.theme-spider-hit:hover .theme-spider-body,
+.theme-spider-hit:focus-visible .theme-spider-body {
+    transform: scale(1.12);
+    filter: drop-shadow(0 9px 14px rgba(0, 0, 0, 0.6));
+}
+
+.theme-spider.is-dragging .theme-spider-body {
+    transform: scaleY(1.1);
+    transition: none;
+}
+
+.theme-spider-hint {
+    position: absolute;
+    top: 50%;
+    left: calc(100% - 2px);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 6px;
+    letter-spacing: 0.26em;
+    opacity: 0.5;
+    pointer-events: none;
+    text-indent: 0.26em;
+    text-transform: uppercase;
+    transform: translateY(-50%);
+    transition: color 0.3s var(--ease), opacity 0.3s var(--ease);
+    white-space: nowrap;
+}
+
+.theme-spider-hit:hover .theme-spider-hint,
+.theme-spider-hit:focus-visible .theme-spider-hint,
+.theme-spider.is-armed .theme-spider-hint {
+    opacity: 1;
+}
+
+.theme-spider.is-armed .theme-spider-hint {
+    color: var(--red-bright);
+}
+
+.theme-spider.is-armed .theme-spider-body {
+    filter: drop-shadow(0 0 16px rgba(255, 74, 78, 0.55));
+}
+
+body.is-spider-dragging {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body.is-spider-dragging .cursor-dot,
+body.is-spider-dragging .cursor-ring {
+    opacity: 0 !important;
+    visibility: hidden;
+}
+
+html[data-theme="light"] .theme-spider-thread {
+    background: linear-gradient(180deg, rgba(20, 19, 23, 0) 0%, rgba(20, 19, 23, 0.55) 14%, rgba(20, 19, 23, 0.22) 100%);
+}
+
+html[data-theme="light"] .theme-spider-body {
+    filter: drop-shadow(0 7px 10px rgba(70, 56, 38, 0.28));
+}
+
+@media (max-width: 680px) {
+    .theme-spider-body {
+        width: 30px;
+        height: 30px;
+    }
+
+    .theme-spider-hit {
+        width: 50px;
+        height: 50px;
+        margin: -25px 0 0 -25px;
+    }
+}
+
+/* ------------------------------------------------------------
+   White / paper theme
+   Token swap plus targeted re-scoping for the deliberately dark
+   "screen" panels (quote band, contact sheet, gadgets, contact
+   card, hero SD card), so their light type stays readable.
+   ------------------------------------------------------------ */
+html[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f4f1ea;
+    --bg-soft: #ece7dd;
+    --bg-raise: #faf7f1;
+    --panel: #fffdf8;
+    --ink: #141317;
+    --ink-soft: #34302c;
+    --muted: #6d675f;
+    --muted-2: #4e4942;
+    --red: #c81019;
+    --red-bright: #e01b24;
+    --red-deep: #8f0a10;
+    --brand-accent: #d21b24;
+    --line: rgba(20, 19, 23, 0.14);
+    --line-strong: rgba(20, 19, 23, 0.3);
+}
+
+html[data-theme="light"] body {
+    background: var(--bg);
+    color: var(--ink);
+}
+
+body {
+    transition: background-color 0.55s var(--ease), color 0.55s var(--ease);
+}
+
+html[data-theme="light"] body::-webkit-scrollbar-track {
+    background: #e8e2d8;
+}
+
+html[data-theme="light"] body::-webkit-scrollbar-thumb {
+    border-color: #e8e2d8;
+    background: #b9b0a2;
+}
+
+html[data-theme="light"] .grain {
+    mix-blend-mode: multiply;
+    opacity: 0.035;
+}
+
+html[data-theme="light"] .vignette {
+    background: radial-gradient(ellipse at center, transparent 58%, rgba(84, 66, 42, 0.14) 100%);
+}
+
+html[data-theme="light"] .preloader {
+    background: #f4f1ea;
+}
+
+html[data-theme="light"] .preloader::before {
+    background: radial-gradient(circle, rgba(200, 16, 25, 0.1), rgba(200, 16, 25, 0.02) 42%, transparent 68%);
+}
+
+/* Header chrome */
+html[data-theme="light"] .header-glass {
+    border-color: rgba(20, 19, 23, 0.14);
+    background-color: rgba(255, 253, 248, 0.66);
+    box-shadow:
+        0 20px 44px rgba(84, 66, 42, 0.13),
+        0 2px 10px rgba(84, 66, 42, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 -1px 0 rgba(20, 19, 23, 0.04);
+}
+
+html[data-theme="light"] .header-glass::before {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.35) 32%,
+        rgba(20, 19, 23, 0.02) 62%,
+        rgba(255, 255, 255, 0.5) 100%
+    );
+    opacity: 0.6;
+}
+
+html[data-theme="light"] .site-header.is-scrolled .header-glass {
+    border-color: rgba(20, 19, 23, 0.18);
+    background-color: rgba(255, 253, 248, 0.82);
+    box-shadow:
+        0 24px 52px rgba(84, 66, 42, 0.18),
+        0 2px 12px rgba(84, 66, 42, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(20, 19, 23, 0.05);
+}
+
+html[data-theme="light"] .main-nav a:hover,
+html[data-theme="light"] .main-nav a.is-active {
+    background: rgba(20, 19, 23, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(20, 19, 23, 0.05);
+}
+
+html[data-theme="light"] .header-cta,
+html[data-theme="light"] .menu-toggle {
+    border-color: rgba(20, 19, 23, 0.18);
+    background: rgba(20, 19, 23, 0.035);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+html[data-theme="light"] .header-cta:hover {
+    background: rgba(200, 16, 25, 0.09);
+}
+
+html[data-theme="light"] .mobile-menu {
+    background: radial-gradient(900px 700px at 80% 0%, rgba(200, 16, 25, 0.09), transparent 65%), var(--bg);
+}
+
+/* Hero scene */
+html[data-theme="light"] .hero-grid-bg {
+    background-image:
+        linear-gradient(rgba(20, 19, 23, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 19, 23, 0.05) 1px, transparent 1px);
+}
+
+html[data-theme="light"] .hero-inner {
+    border-color: rgba(20, 19, 23, 0.13);
+    background:
+        linear-gradient(180deg, rgba(20, 19, 23, 0.018), transparent 16%),
+        radial-gradient(900px 520px at 50% 28%, rgba(200, 16, 25, 0.05), transparent 70%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 40px 120px rgba(84, 66, 42, 0.13);
+}
+
+html[data-theme="light"] .hero-slate {
+    border-bottom-color: rgba(20, 19, 23, 0.13);
+}
+
+html[data-theme="light"] .hero-slate-rule {
+    background: linear-gradient(90deg, transparent, rgba(20, 19, 23, 0.24), transparent);
+}
+
+html[data-theme="light"] .hero-slate-copy {
+    color: rgba(20, 19, 23, 0.55);
+}
+
+html[data-theme="light"] .hero-bottom {
+    background: linear-gradient(to top, rgba(244, 241, 234, 0.96), rgba(244, 241, 234, 0.12));
+}
+
+html[data-theme="light"] .billing p {
+    color: rgba(20, 19, 23, 0.5);
+}
+
+html[data-theme="light"] .timecode {
+    color: rgba(20, 19, 23, 0.62);
+}
+
+/* The SD card is a dark product, so it keeps its own light tokens. */
+html[data-theme="light"] .hero-poster {
+    --ink: #f2ede3;
+    --ink-soft: #d8d2c6;
+}
+
+/* Dark screen panels keep light type in both themes. */
+html[data-theme="light"] .quote-band {
+    --ink: #f2ede3;
+    --ink-soft: #d8d2c6;
+    --muted: #a39c92;
+    --muted-2: #c7c0b4;
+    --line: rgba(242, 237, 227, 0.13);
+    border-color: rgba(242, 237, 227, 0.14);
+}
+
+html[data-theme="light"] .poster-sheet,
+html[data-theme="light"] .gadgets,
+html[data-theme="light"] .contact-card {
+    --ink: #f2ede3;
+    --ink-soft: #ded8cc;
+    --muted: #a39c92;
+    --muted-2: #c7c0b4;
+    --line: rgba(242, 237, 227, 0.13);
+    --line-strong: rgba(242, 237, 227, 0.27);
+}
+
+html[data-theme="light"] .poster-sheet {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 36%),
+        rgba(14, 13, 16, 0.95);
+    box-shadow: 0 30px 70px rgba(84, 66, 42, 0.2);
+}
+
+html[data-theme="light"] .posterwall-bigword {
+    -webkit-text-stroke: 1px rgba(20, 19, 23, 0.06);
+    text-stroke: 1px rgba(20, 19, 23, 0.06);
+}
+
+html[data-theme="light"] .poster-feature-spine {
+    color: rgba(20, 19, 23, 0.34);
+}
+
+html[data-theme="light"] .power:hover {
+    background: rgba(20, 19, 23, 0.032);
+}
+
+html[data-theme="light"] .credits-note {
+    color: rgba(109, 103, 95, 0.62);
+}
+
+html[data-theme="light"] .post-credit {
+    background: rgba(20, 19, 23, 0.022);
+}
+
+html[data-theme="light"] .post-credit.is-revealed {
+    background: radial-gradient(600px 260px at 50% 120%, rgba(200, 16, 25, 0.07), transparent 70%), rgba(20, 19, 23, 0.028);
+}
+
+html[data-theme="light"] .site-footer {
+    background: transparent;
+}
+
+html[data-theme="light"] .footer-dot {
+    color: rgba(20, 19, 23, 0.3);
+}
+
 
