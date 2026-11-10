@@ -299,24 +299,46 @@ body::-webkit-scrollbar-thumb:hover {
     scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
-/* ---------- Scroll-linked 3D scenes ---------- */
+/* ---------- Projector pass (scroll-linked light, no 3D tilt) ---------- */
 main > section:not(.hero) {
-    --scene-rx: 0deg;
-    --scene-tz: 0px;
-    --scene-sc: 1;
-    --scene-op: 1;
+    --scan-x: 0;
     --scene-edge: 0;
     position: relative;
-    transform: perspective(1400px) translate3d(0, 0, var(--scene-tz)) rotateX(var(--scene-rx)) scale(var(--scene-sc));
-    transform-origin: 50% 50%;
-    opacity: var(--scene-op);
-    backface-visibility: hidden;
+    isolation: isolate;
+    overflow: hidden;
+    overflow: clip;
 }
 
-main > section.is-scene-live {
-    will-change: transform, opacity;
+/* A soft projector beam sweeps across the scene as it scrolls. */
+main > section:not(.hero)::before {
+    content: "";
+    position: absolute;
+    top: -10%;
+    bottom: -10%;
+    left: -60%;
+    z-index: -1;
+    width: 55%;
+    background:
+        linear-gradient(100deg,
+            transparent 0%,
+            transparent 38%,
+            rgba(255, 232, 224, 0.08) 46%,
+            rgba(255, 255, 255, 0.06) 50%,
+            rgba(255, 232, 224, 0.08) 54%,
+            transparent 62%,
+            transparent 100%),
+        linear-gradient(100deg,
+            transparent 0%,
+            rgba(255, 74, 78, 0.18) 32%,
+            rgba(255, 242, 236, 0.1) 50%,
+            rgba(255, 74, 78, 0.15) 68%,
+            transparent 100%);
+    transform: translate3d(calc(var(--scan-x) * 220%), 0, 0) skewX(-12deg);
+    pointer-events: none;
 }
 
+/* Top hairline acts like a film splice: it lights up as the scene
+   reaches the frame, with a small lamp travelling along it. */
 main > section:not(.hero)::after {
     content: "";
     position: absolute;
@@ -325,7 +347,9 @@ main > section:not(.hero)::after {
     left: 0;
     z-index: 40;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(242, 237, 227, 0.24) 22%, rgba(255, 74, 78, 0.5) 50%, rgba(242, 237, 227, 0.24) 78%, transparent);
+    background:
+        radial-gradient(circle at calc(var(--scan-x) * 100%) 50%, rgba(255, 232, 228, 0.95) 0 1px, rgba(255, 74, 78, 0.7) 2px, transparent 20px),
+        linear-gradient(90deg, transparent, rgba(242, 237, 227, 0.24) 22%, rgba(255, 74, 78, 0.5) 50%, rgba(242, 237, 227, 0.24) 78%, transparent);
     box-shadow: 0 0 18px rgba(255, 74, 78, 0.18);
     opacity: var(--scene-edge);
     pointer-events: none;

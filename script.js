@@ -1042,73 +1042,45 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 })();
 
 /* ------------------------------------------------------------
-   Scroll-linked 3D scenes
+   Projector pass
+   A soft light band sweeps through each scene as it scrolls,
+   and the scene's top splice line lights up at the frame edge.
+   Sections stay flat: no tilt, scale or fade.
    ------------------------------------------------------------ */
-(function sceneDepth() {
-    // The hero has its own dedicated scroll exit; don't stack the scene
-    // transform and its parallax on the same layer.
+(function projectorPass() {
     const scenes = Array.from(document.querySelectorAll('main > section:not(.hero)'));
     if (!scenes.length) return;
 
+    const clamp01 = (value) => Math.min(1, Math.max(0, value));
+    const smooth = (value) => value * value * (3 - 2 * value);
+
     if (reduceMotion) {
         scenes.forEach((scene) => {
-            scene.style.setProperty('--scene-rx', '0deg');
-            scene.style.setProperty('--scene-tz', '0px');
-            scene.style.setProperty('--scene-sc', '1');
-            scene.style.setProperty('--scene-op', '1');
-            scene.style.setProperty('--scene-edge', '0');
+            scene.style.setProperty('--scan-x', '0.5');
+            scene.style.setProperty('--scene-edge', '0.55');
         });
         return;
     }
 
     let ticking = false;
 
-    const clamp01 = (value) => Math.min(1, Math.max(0, value));
-    const smooth = (value) => value * value * (3 - 2 * value);
-
     function paint() {
         ticking = false;
         const viewH = window.innerHeight;
         const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-        const intensity = viewH < 720 ? 0.72 : 1;
 
         scenes.forEach((scene) => {
-            // Layout measurements only — transformed rects would feed the
-            // rotation back into its own progress and cause jitter.
             const top = scene.offsetTop - scrollY;
             const height = scene.offsetHeight;
-            const bottom = top + height;
-            const heightFactor = Math.min(1, 1050 / Math.max(height, 1));
+            const travel = viewH + height;
 
-            let amount = 0;
-            let direction = 1;
+            // The beam crosses the scene once per full pass through frame.
+            const progress = clamp01((viewH - top) / travel);
+            scene.style.setProperty('--scan-x', smooth(progress).toFixed(3));
 
-            if (top >= 0 && bottom <= viewH) {
-                // Fully inside the frame: sit flat.
-                amount = 0;
-            } else if (top > 0) {
-                // Entering from below the frame.
-                amount = smooth(clamp01((top - viewH * 0.32) / (viewH * 0.6)));
-                direction = 1;
-            } else if (bottom < viewH) {
-                // Leaving through the top of the frame.
-                amount = smooth(clamp01((viewH - bottom) / (viewH * 0.65)));
-                direction = -1;
-            }
-
-            const rx = direction * amount * 5.2 * intensity * heightFactor;
-            const tz = -amount * 150 * intensity * (0.35 + 0.65 * heightFactor);
-            const scale = 1 - amount * 0.02 * heightFactor;
-            const opacity = 1 - amount * (direction > 0 ? 0.22 : 0.16);
-
-            scene.style.setProperty('--scene-rx', `${rx.toFixed(2)}deg`);
-            scene.style.setProperty('--scene-tz', `${tz.toFixed(1)}px`);
-            scene.style.setProperty('--scene-sc', scale.toFixed(4));
-            scene.style.setProperty('--scene-op', opacity.toFixed(3));
-            scene.style.setProperty('--scene-edge', (amount * 0.7).toFixed(3));
-
-            const live = top < viewH + 220 && bottom > -220;
-            scene.classList.toggle('is-scene-live', live);
+            // The top splice line glows when the scene reaches the frame.
+            const edge = clamp01(1 - Math.abs(top - viewH * 0.2) / (viewH * 0.58));
+            scene.style.setProperty('--scene-edge', (0.22 + edge * 0.78).toFixed(3));
         });
     }
 
