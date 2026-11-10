@@ -1091,6 +1091,24 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
    Section links — always land on the top of that stacked page
    ------------------------------------------------------------ */
 (function sectionNav() {
+    const pages = Array.from(document.querySelectorAll('main > section'));
+
+    // A pinned (sticky) section's offsetTop reports its current pinned
+    // position, not its place in the document. Measure it with the
+    // stack temporarily released so every nav click lands on the true
+    // top of the page instead of dropping into the middle of it.
+    function naturalTop(page) {
+        if (!page.classList.contains('is-page-stack')) {
+            return page.getBoundingClientRect().top + window.scrollY;
+        }
+
+        const stack = pages.filter((p) => p.classList.contains('is-page-stack'));
+        stack.forEach((p) => p.classList.remove('is-page-stack'));
+        const top = page.getBoundingClientRect().top + window.scrollY;
+        stack.forEach((p) => p.classList.add('is-page-stack'));
+        return top;
+    }
+
     document.addEventListener('click', (event) => {
         if (event.defaultPrevented) return;
         if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -1107,7 +1125,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
         if (id !== 'top' && !page.matches('main > section')) return;
 
         event.preventDefault();
-        const top = id === 'top' ? 0 : page.offsetTop;
+        const top = id === 'top' ? 0 : Math.round(naturalTop(page));
         window.scrollTo({
             top,
             behavior: reduceMotion ? 'auto' : 'smooth',
