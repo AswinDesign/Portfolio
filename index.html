@@ -22,7 +22,7 @@
             } catch (error) { /* storage can be blocked */ }
         })();
     </script>
-    <link rel="stylesheet" href="./style.css?v=77">
+    <link rel="stylesheet" href="./style.css?v=78">
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -459,179 +459,344 @@
                     <div class="section-head">
                         <p class="section-act reveal"><span class="act-tag">Act III</span><span class="rule" aria-hidden="true"></span><span>Scene 03</span></p>
                         <h2 class="section-title reveal">The <em>poster</em> wall</h2>
-                        <p class="section-sub reveal">Sixteen matchday frames, one spotlight. Sweep the contact sheet to change the print — every frame built by hand.</p>
+                        <p class="section-sub reveal">Twelve matchday frames, one moving spotlight. A salon wall of prints from two 2025 collections — open any frame full size.</p>
                     </div>
                     <div class="posterwall-stamp reveal" aria-hidden="true">
                         <span>Sports</span>
-                        <strong>16</strong>
+                        <strong>12</strong>
                         <span>Posters</span>
                     </div>
                 </div>
             </div>
 
-            <div class="poster-room" id="posterRoom">
-                <div class="poster-room-head">
-                    <span class="poster-room-label"><span class="poster-room-dot" aria-hidden="true"></span>Now showing</span>
-                    <span class="poster-room-count"><strong id="posterCurrent">01</strong><span>/ 16</span></span>
+            <div class="wall-room" id="posterRoom">
+                <div class="wall-room-bar">
+                    <p class="wall-room-label"><span class="wall-room-dot" aria-hidden="true"></span>Salon wall <span class="wall-room-slash">/</span> 2025 archive</p>
+                    <p class="wall-room-count"><strong>12</strong> prints <span>·</span> two collections</p>
+                    <button class="wall-tour" id="wallTour" type="button" aria-pressed="true">
+                        <span class="wall-tour-icon" aria-hidden="true">❚❚</span><span class="wall-tour-label">Pause tour</span>
+                    </button>
                 </div>
 
-                <div class="poster-room-grid">
-                    <div class="poster-feature-shell">
-                        <span class="poster-feature-spine" aria-hidden="true">The print room · 2025 archive</span>
-                        <a class="poster-feature" id="posterFeature" href="https://www.behance.net/aswin-design" target="_blank" rel="noopener">
-                            <span class="poster-feature-media">
-                                <img id="posterFeatureImg" src="./assets/image/posters/al-nassr-matchday.webp" alt="Al Nassr matchday poster with Cristiano Ronaldo in yellow and flames" width="640" height="800" loading="lazy" decoding="async">
-                                <span class="poster-feature-flash" aria-hidden="true"></span>
-                                <span class="poster-feature-corners" aria-hidden="true"></span>
-                                <span class="poster-feature-open" aria-hidden="true">View on Behance ↗</span>
-                            </span>
-                            <span class="poster-feature-caption">
-                                <span class="poster-feature-caption-copy">
-                                    <span class="poster-feature-kicker" id="posterFeatureKicker">Frame 01 · Matchday</span>
-                                    <span class="poster-feature-title" id="posterFeatureTitle">Al Nassr · Matchday</span>
+                <div class="wall-stage" id="wallStage">
+                    <div class="wall-spot" id="wallSpot" aria-hidden="true"></div>
+                    <div class="wall-grid" id="wallGrid" aria-label="Salon wall of twelve sports posters">
+                        <figure class="wall-print" style="--tone:#3b3d3f; --stagger:0px; --tilt:-1.1deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="0" aria-label="Open Symbiote poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/symbiote.webp" alt="Raphinha split between his face and a Venom symbiote, framed by red web spikes" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">01</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Symbiote</span>
+                                            <span class="wall-print-tag">Raphinha <span aria-hidden="true">·</span> Vol. I</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-feature-index" aria-hidden="true"><span id="posterFeatureIndex">01</span><span>/ 16</span></span>
-                            </span>
-                        </a>
-                    </div>
+                            </button>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
 
-                    <div class="poster-sheet">
-                        <div class="poster-sheet-head">
-                            <span><span class="poster-sheet-dot" aria-hidden="true"></span>Contact sheet</span>
-                            <span>16 frames</span>
-                        </div>
-                        <div class="poster-sheet-grid" aria-label="Poster contact sheet">
-                            <button class="poster-thumb is-active" type="button" aria-current="true" aria-label="Feature Al Nassr · Matchday" data-src="./assets/image/posters/al-nassr-matchday.webp" data-index="01" data-title="Al Nassr · Matchday" data-tag="Matchday" data-alt="Al Nassr matchday poster with Cristiano Ronaldo in yellow and flames">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/al-nassr-matchday.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">01</span>
+                        <figure class="wall-print" style="--tone:#301f0c; --stagger:42px; --tilt:1.2deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="1" aria-label="Open Seleção poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/selecao.webp" alt="Vinícius Júnior and Raphinha celebrating in front of a glowing CBF crest" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">02</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Seleção</span>
+                                            <span class="wall-print-tag">Vini Jr × Raphinha <span aria-hidden="true">·</span> Vol. I</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Al Nassr</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Bellingham · El Clásico" data-src="./assets/image/posters/bellingham-el-clasico.webp" data-index="02" data-title="Bellingham · El Clásico" data-tag="Player story" data-alt="Bellingham El Clásico poster with arms outstretched in pink and blue light">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/bellingham-el-clasico.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">02</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#6b507d; --stagger:16px; --tilt:-0.7deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="2" aria-label="Open Neymar Jr poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/neymar.webp" alt="Neymar Jr screaming in a Brazil shirt with glowing purple eyes" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">03</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Neymar Jr</span>
+                                            <span class="wall-print-tag">Brazil <span aria-hidden="true">·</span> Number 10 <span aria-hidden="true">·</span> Vol. I</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Bellingham</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature El Clásico" data-src="./assets/image/posters/el-clasico.webp" data-index="03" data-title="El Clásico" data-tag="Rivalry" data-alt="El Clásico collage poster with Barcelona and Real Madrid players">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/el-clasico.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">03</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#a68264; --stagger:58px; --tilt:1.5deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="3" aria-label="Open Golden Lightning poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/golden-lightning.webp" alt="Erling Haaland striking a ball wrapped in golden lightning" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">04</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Golden Lightning</span>
+                                            <span class="wall-print-tag">Haaland <span aria-hidden="true">·</span> Vol. I</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">El Clásico</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Thank You, Íñigo" data-src="./assets/image/posters/thank-you-inigo.webp" data-index="04" data-title="Thank You, Íñigo" data-tag="Farewell" data-alt="Thank You Inigo Martinez farewell poster in green and red">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/thank-you-inigo.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">04</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#14191d; --stagger:30px; --tilt:1.3deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="4" aria-label="Open Blaugrana poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/blaugrana.webp" alt="Lamine Yamal celebrating with Balde and Raphinha in dark Barcelona blue" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">05</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Blaugrana</span>
+                                            <span class="wall-print-tag">Lamine Yamal <span aria-hidden="true">·</span> 19 <span aria-hidden="true">·</span> Vol. I</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Íñigo</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Messi · World Cup" data-src="./assets/image/posters/messi-world-cup.webp" data-index="05" data-title="Messi · World Cup" data-tag="Cape of a legend" data-alt="Messi World Cup poster with a cape and golden trophy">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/messi-world-cup.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">05</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#11110b; --stagger:0px; --tilt:-1.4deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="5" aria-label="Open Don Andrés poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/don-andres.webp" alt="Andrés Iniesta sitting among trophies beneath a giant golden World Cup" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">06</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Don Andrés</span>
+                                            <span class="wall-print-tag">Iniesta <span aria-hidden="true">·</span> Farewell <span aria-hidden="true">·</span> Vol. I</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Messi</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature 90+6" data-src="./assets/image/posters/raphinha-90-6.webp" data-index="06" data-title="90+6" data-tag="Raphinha" data-alt="Raphinha 90 plus 6 comeback poster in blue and red">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/raphinha-90-6.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">06</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#584742; --stagger:48px; --tilt:0.9deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="6" aria-label="Open Panther poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/panther.webp" alt="Cristiano Ronaldo celebrating in front of a roaring black panther and open flame" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">07</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Panther</span>
+                                            <span class="wall-print-tag">Cristiano Ronaldo <span aria-hidden="true">·</span> Vol. II</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">90+6</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Messi · Argentina" data-src="./assets/image/posters/messi-argentina.webp" data-index="07" data-title="Messi · Argentina" data-tag="Champions" data-alt="Messi Argentina champions poster in light blue and white">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/messi-argentina.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">07</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#896a4d; --stagger:10px; --tilt:-1.2deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="7" aria-label="Open Bicycle poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/bicycle.webp" alt="Erling Haaland hitting an overhead bicycle kick crackling with lightning" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">08</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Bicycle</span>
+                                            <span class="wall-print-tag">Haaland <span aria-hidden="true">·</span> Overhead <span aria-hidden="true">·</span> Vol. II</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Argentina</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Golden Boy" data-src="./assets/image/posters/golden-boy.webp" data-index="08" data-title="Golden Boy" data-tag="Lamine Yamal" data-alt="Lamine Yamal Golden Boy poster in black and gold">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/golden-boy.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">08</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#215b44; --stagger:36px; --tilt:1.1deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="8" aria-label="Open Hat-Trick poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/hat-trick.webp" alt="Kylian Mbappé walking through green flame under a hat-trick headline" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">09</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Hat-Trick</span>
+                                            <span class="wall-print-tag">Mbappé <span aria-hidden="true">·</span> Madrid <span aria-hidden="true">·</span> Vol. II</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Golden Boy</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Spider-Verse" data-src="./assets/image/posters/spider-verse.webp" data-index="09" data-title="Spider-Verse" data-tag="Portal edit" data-alt="Footballer emerging from a glowing spider-verse portal">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/spider-verse.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">09</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#7f6759; --stagger:0px; --tilt:-0.8deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="9" aria-label="Open Here We Go Again poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/here-we-go-again.webp" alt="Messi, Neymar and Ronaldo walking down a street toward a giant World Cup trophy" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">10</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Here We Go Again</span>
+                                            <span class="wall-print-tag">Messi × Neymar × Ronaldo <span aria-hidden="true">·</span> Vol. II</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Spider-Verse</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature The Theatre" data-src="./assets/image/posters/the-theatre.webp" data-index="10" data-title="The Theatre" data-tag="Barça" data-alt="Barcelona players celebrating on a theatre stage with red curtains">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/the-theatre.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">10</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#362f43; --stagger:52px; --tilt:1.4deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="10" aria-label="Open Planets poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/planets.webp" alt="Messi and Lamine Yamal playing football across planets in deep space" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">11</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">Planets</span>
+                                            <span class="wall-print-tag">Messi × Yamal <span aria-hidden="true">·</span> Galaxy <span aria-hidden="true">·</span> Vol. II</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Theatre</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Argentina · Legends" data-src="./assets/image/posters/argentina-legends.webp" data-index="11" data-title="Argentina · Legends" data-tag="CBF" data-alt="Argentina legends poster with the CBF crest">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/argentina-legends.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">11</span>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
+
+                        <figure class="wall-print" style="--tone:#404624; --stagger:22px; --tilt:-1.3deg;">
+                            <button class="wall-print-btn" type="button" data-wall-open data-index="11" aria-label="Open World Cup poster">
+                                <span class="wall-print-inner">
+                                    <span class="wall-print-frame">
+                                        <span class="wall-print-mat">
+                                            <span class="wall-print-media">
+                                                <img src="./assets/image/posters/wall/world-cup.webp" alt="Haaland beside a towering golden World Cup trophy in a floodlit stadium" width="640" height="800" loading="lazy" decoding="async">
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="wall-print-plate">
+                                        <span class="wall-print-num">12</span>
+                                        <span class="wall-print-copy">
+                                            <span class="wall-print-title">World Cup</span>
+                                            <span class="wall-print-tag">Haaland <span aria-hidden="true">·</span> Norway <span aria-hidden="true">·</span> Vol. II</span>
+                                        </span>
+                                        <span class="wall-print-arrow" aria-hidden="true">↗</span>
+                                    </span>
                                 </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Legends</span>
                             </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Purple Reign" data-src="./assets/image/posters/purple-reign.webp" data-index="12" data-title="Purple Reign" data-tag="Portugal" data-alt="Cristiano Ronaldo Portugal poster in purple lighting">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/purple-reign.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">12</span>
-                                </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Purple</span>
-                            </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Web Slinger" data-src="./assets/image/posters/web-slinger.webp" data-index="13" data-title="Web Slinger" data-tag="Red web study" data-alt="Abstract red and black spider-web sports poster">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/web-slinger.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">13</span>
-                                </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Web</span>
-                            </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Salah · Lightning" data-src="./assets/image/posters/salah-lightning.webp" data-index="14" data-title="Salah · Lightning" data-tag="Liverpool" data-alt="Mohamed Salah poster surrounded by blue lightning">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/salah-lightning.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">14</span>
-                                </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Salah</span>
-                            </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Bellingham · Sunset" data-src="./assets/image/posters/bellingham-sunset.webp" data-index="15" data-title="Bellingham · Sunset" data-tag="Madrid" data-alt="Bellingham poster in a golden sunset stadium">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/bellingham-sunset.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">15</span>
-                                </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Sunset</span>
-                            </button>
-                            <button class="poster-thumb" type="button" aria-current="false" aria-label="Feature Yamal × Álvarez" data-src="./assets/image/posters/yamal-alvarez.webp" data-index="16" data-title="Yamal × Álvarez" data-tag="Rain" data-alt="Lamine Yamal and Julian Alvarez poster in the rain">
-                                <span class="poster-thumb-media">
-                                    <img src="./assets/image/posters/thumbs/yamal-alvarez.webp" alt="" width="320" height="400" loading="lazy" decoding="async">
-                                    <span class="poster-thumb-num" aria-hidden="true">16</span>
-                                </span>
-                                <span class="poster-thumb-label" aria-hidden="true">Yamal</span>
-                            </button>
-                        </div>
+                            <span class="wall-print-glow" aria-hidden="true"></span>
+                        </figure>
                     </div>
+                    <p class="wall-stage-note" aria-hidden="true">Two collections <span>·</span> Twelve prints <span>·</span> One wall</p>
                 </div>
             </div>
+
             <div class="container">
                 <div class="posterwall-foot reveal">
                     <div class="posterwall-foot-copy">
                         <p>Football, fandom and <span>frames.</span></p>
-                        <button class="reel-toggle" id="wallToggle" type="button" aria-pressed="false" aria-controls="posterRoom">
-                            <span class="reel-icon" aria-hidden="true">❚❚</span><span class="reel-label">Pause wall</span>
-                        </button>
+                        <p class="posterwall-foot-sub">Every print is hand-built. Open one to see the full frame.</p>
                     </div>
                     <div class="posterwall-links">
+                        <a class="btn btn-ghost" href="https://www.behance.net/gallery/213621883/Sport-Design-II" target="_blank" rel="noopener">Sport Design II <span aria-hidden="true">↗</span></a>
                         <a class="btn btn-ghost" href="https://www.behance.net/gallery/239405795/2025-Sports-Poster-Design-(Personal-Projects)" target="_blank" rel="noopener">2025 collection <span aria-hidden="true">↗</span></a>
                         <a class="btn btn-red" href="https://www.behance.net/aswin-design" target="_blank" rel="noopener">All on Behance <span aria-hidden="true">↗</span></a>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- The poster lightbox lives outside the stacked sections so it can cover the page -->
+        <div class="wallbox" id="wallBox" hidden>
+            <div class="wallbox-scrim" data-wall-close></div>
+            <button class="wallbox-close" type="button" data-wall-close aria-label="Close poster viewer"><span aria-hidden="true">×</span></button>
+            <div class="wallbox-panel" role="dialog" aria-modal="true" aria-labelledby="wallboxTitle" aria-describedby="wallboxDesc">
+                <div class="wallbox-media" id="wallboxMedia">
+                    <img class="wallbox-img" id="wallboxImg" src="" alt="" width="1400" height="1750" decoding="async">
+                    <button class="wallbox-step wallbox-prev" id="wallboxPrev" type="button" aria-label="Previous poster"><span aria-hidden="true">←</span></button>
+                    <button class="wallbox-step wallbox-next" id="wallboxNext" type="button" aria-label="Next poster"><span aria-hidden="true">→</span></button>
+                    <span class="wallbox-count" aria-hidden="true"><span id="wallboxCurrent">01</span> / 12</span>
+                </div>
+                <div class="wallbox-info">
+                    <p class="wallbox-kicker" id="wallboxCollection">Vol. I · Sport Design II</p>
+                    <h3 class="wallbox-title" id="wallboxTitle">Symbiote</h3>
+                    <p class="wallbox-desc" id="wallboxDesc"></p>
+                    <p class="wallbox-tag" id="wallboxTag"></p>
+                    <a class="wallbox-link" id="wallboxLink" href="https://www.behance.net/gallery/213621883/Sport-Design-II" target="_blank" rel="noopener">View the project <span aria-hidden="true">↗</span></a>
+                    <p class="wallbox-hint" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd> browse <span>·</span> <kbd>esc</kbd> close</p>
+                </div>
+            </div>
+        </div>
 
         <!-- Arsenal -->
         <section class="arsenal section" id="arsenal">
@@ -741,6 +906,6 @@
         </section>
     </main>
 
-    <script src="./script.js?v=61"></script>
+    <script src="./script.js?v=62"></script>
 </body>
 </html>

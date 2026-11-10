@@ -593,7 +593,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     }
     window.requestAnimationFrame(loop);
 
-    const interactiveSelector = 'a, button, [role="button"], input, textarea, select, .hero-poster-wrap, #heroPoster, .film-card, .poster-thumb, .poster-card';
+    const interactiveSelector = 'a, button, [role="button"], input, textarea, select, .hero-poster-wrap, #heroPoster, .film-card, .poster-card';
     let hoverTarget = null;
 
     document.addEventListener('pointerover', (event) => {
@@ -658,9 +658,12 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     function cursorLabelFor(element) {
         if (element.closest('#themeSpider')) return 'PULL';
         if (element.closest('.hero-poster-wrap')) return 'DRAG';
-        if (element.closest('.poster-feature')) return 'VIEW';
-        if (element.closest('.film-card, .poster-thumb, .poster-card')) return 'VIEW';
-        if (element.closest('#wallToggle')) return 'SWING';
+        if (element.closest('[data-wall-open]')) return 'VIEW';
+        if (element.closest('.film-card, .poster-card')) return 'VIEW';
+        if (element.closest('#wallTour')) return 'TOUR';
+        if (element.closest('#wallboxNext')) return 'NEXT';
+        if (element.closest('#wallboxPrev')) return 'PREV';
+        if (element.closest('[data-wall-close]')) return 'CLOSE';
         if (element.closest('#secretBtn')) return 'SECRET';
         if (element.tagName === 'A') {
             const href = element.getAttribute('href') || '';
@@ -844,6 +847,10 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
         void wrap.offsetWidth;
         wrap.style.translate = '0px 0px';
         wrap.style.rotate = '0deg';
+        if (poster) {
+            poster.style.setProperty('--drag-rx', '0deg');
+            poster.style.setProperty('--drag-ry', '0deg');
+        }
     }
 
     wrap.addEventListener('pointerdown', (event) => {
@@ -872,6 +879,8 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
             poster.classList.remove('is-tilting');
             poster.style.setProperty('--rx', '0deg');
             poster.style.setProperty('--ry', '0deg');
+            poster.style.setProperty('--drag-rx', '0deg');
+            poster.style.setProperty('--drag-ry', '0deg');
         }
     });
 
@@ -884,6 +893,18 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 
         wrap.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
         wrap.style.rotate = `${clamp(x / 70, -6, 6).toFixed(2)}deg`;
+
+        if (poster) {
+            // The card leans into the direction it is being carried:
+            // left drag turns the face left, right drag turns it right,
+            // and vertical drag adds a small forward/back tip.
+            const rangeX = Math.max(280, window.innerWidth * 0.26);
+            const rangeY = Math.max(220, window.innerHeight * 0.3);
+            const nx = clamp(x / rangeX, -1, 1);
+            const ny = clamp(y / rangeY, -1, 1);
+            poster.style.setProperty('--drag-ry', `${(-nx * 20).toFixed(2)}deg`);
+            poster.style.setProperty('--drag-rx', `${(-ny * 11).toFixed(2)}deg`);
+        }
     });
 
     wrap.addEventListener('pointerup', (event) => {
@@ -991,6 +1012,8 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 
         poster.style.setProperty('--rx', '0deg');
         poster.style.setProperty('--ry', '0deg');
+        poster.style.setProperty('--drag-rx', '0deg');
+        poster.style.setProperty('--drag-ry', '0deg');
     });
 
     wrap.addEventListener('pointermove', (event) => {
@@ -1140,135 +1163,462 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 /* ------------------------------------------------------------
    Poster room
    ------------------------------------------------------------ */
-(function posterRoom() {
-    const room = document.getElementById('posterRoom');
-    const feature = document.getElementById('posterFeature');
-    const image = document.getElementById('posterFeatureImg');
-    const kicker = document.getElementById('posterFeatureKicker');
-    const title = document.getElementById('posterFeatureTitle');
-    const index = document.getElementById('posterFeatureIndex');
-    const current = document.getElementById('posterCurrent');
-    const toggle = document.getElementById('wallToggle');
-    const thumbs = Array.from(document.querySelectorAll('.poster-thumb'));
-    if (!room || !feature || !image || !thumbs.length) return;
+/* ------------------------------------------------------------
+   Poster salon — spotlight tour + full-frame viewer
+   ------------------------------------------------------------ */
+(function posterSalon() {
+    const stage = document.getElementById('wallStage');
+    const grid = document.getElementById('wallGrid');
+    const tourBtn = document.getElementById('wallTour');
+    const buttons = Array.from(document.querySelectorAll('[data-wall-open]'))
+        .sort((a, b) => Number(a.dataset.index) - Number(b.dataset.index));
+    if (!stage || !grid || !buttons.length) return;
 
-    const FEATURE_URL = 'https://www.behance.net/aswin-design';
-    const INTERVAL = 4600;
-    let active = 0;
-    let timer = 0;
-    let swapTimer = 0;
+    const GALLERY_I = 'https://www.behance.net/gallery/213621883/Sport-Design-II';
+    const GALLERY_II = 'https://www.behance.net/gallery/239405795/2025-Sports-Poster-Design-(Personal-Projects)';
+
+    const POSTERS = [
+        {
+            title: 'Symbiote',
+            tag: 'Raphinha · Fan art · 2025',
+            full: './assets/image/posters/wall/full/symbiote.webp',
+            collection: 'Vol. I · Sport Design II',
+            link: GALLERY_I,
+            desc: 'A Venomised portrait built around tension, texture and one red eye.',
+        },
+        {
+            title: 'Seleção',
+            tag: 'Vini Jr × Raphinha · Brazil · 2025',
+            full: './assets/image/posters/wall/full/selecao.webp',
+            collection: 'Vol. I · Sport Design II',
+            link: GALLERY_I,
+            desc: 'Two generations of Brazilian flair beneath the CBF stars.',
+        },
+        {
+            title: 'Neymar Jr',
+            tag: 'Brazil · Number 10 · 2025',
+            full: './assets/image/posters/wall/full/neymar.webp',
+            collection: 'Vol. I · Sport Design II',
+            link: GALLERY_I,
+            desc: 'Purple voltage, a number ten and a nation holding its breath.',
+        },
+        {
+            title: 'Golden Lightning',
+            tag: 'Haaland · Manchester City · 2025',
+            full: './assets/image/posters/wall/full/golden-lightning.webp',
+            collection: 'Vol. I · Sport Design II',
+            link: GALLERY_I,
+            desc: 'Haaland’s strike turned into pure electric gold.',
+        },
+        {
+            title: 'Blaugrana',
+            tag: 'Lamine Yamal · Barcelona · 2025',
+            full: './assets/image/posters/wall/full/blaugrana.webp',
+            collection: 'Vol. I · Sport Design II',
+            link: GALLERY_I,
+            desc: 'La Masia’s next chapter, lit like a night match.',
+        },
+        {
+            title: 'Don Andrés',
+            tag: 'Iniesta · Farewell · 2025',
+            full: './assets/image/posters/wall/full/don-andres.webp',
+            collection: 'Vol. I · Sport Design II',
+            link: GALLERY_I,
+            desc: 'Don Andrés, surrounded by everything he won.',
+        },
+        {
+            title: 'Panther',
+            tag: 'Cristiano Ronaldo · Portugal · 2025',
+            full: './assets/image/posters/wall/full/panther.webp',
+            collection: 'Vol. II · 2025 Series',
+            link: GALLERY_II,
+            desc: 'Portugal’s captain flanked by a panther and open flame.',
+        },
+        {
+            title: 'Bicycle',
+            tag: 'Haaland · Overhead kick · 2025',
+            full: './assets/image/posters/wall/full/bicycle.webp',
+            collection: 'Vol. II · 2025 Series',
+            link: GALLERY_II,
+            desc: 'An overhead kick with lightning in the boots.',
+        },
+        {
+            title: 'Hat-Trick',
+            tag: 'Mbappé · Real Madrid · 2025',
+            full: './assets/image/posters/wall/full/hat-trick.webp',
+            collection: 'Vol. II · 2025 Series',
+            link: GALLERY_II,
+            desc: 'A hat-trick in green fire, with the defender left seated.',
+        },
+        {
+            title: 'Here We Go Again',
+            tag: 'Messi × Neymar × Ronaldo · 2025',
+            full: './assets/image/posters/wall/full/here-we-go-again.webp',
+            collection: 'Vol. II · 2025 Series',
+            link: GALLERY_II,
+            desc: 'Three icons walking toward one last World Cup.',
+        },
+        {
+            title: 'Planets',
+            tag: 'Messi × Yamal · Deep space · 2025',
+            full: './assets/image/posters/wall/full/planets.webp',
+            collection: 'Vol. II · 2025 Series',
+            link: GALLERY_II,
+            desc: 'Messi and Yamal playing across the solar system.',
+        },
+        {
+            title: 'World Cup',
+            tag: 'Haaland · Norway · 2025',
+            full: './assets/image/posters/wall/full/world-cup.webp',
+            collection: 'Vol. II · 2025 Series',
+            link: GALLERY_II,
+            desc: 'A golden trophy, a Norwegian striker, one empty pitch.',
+        },
+    ];
+
+    const items = buttons.map((btn, i) => {
+        const source = POSTERS[i] || POSTERS[0];
+        const img = btn.querySelector('img');
+        return {
+            btn,
+            print: btn.closest('.wall-print'),
+            img,
+            title: source.title,
+            tag: source.tag,
+            full: source.full,
+            collection: source.collection,
+            link: source.link,
+            desc: source.desc,
+            alt: img ? img.alt : source.title,
+            preloaded: false,
+        };
+    });
+
+    /* ---------- Spotlight ---------- */
+    const canTour = finePointer && !reduceMotion;
+    let tourOn = canTour;
+    let tourIndex = -1;
+    let tourTimer = 0;
     let inView = false;
     let hovering = false;
-    let userPaused = false;
+    let boxOpen = false;
 
-    function updateToggle() {
-        if (!toggle) return;
-        const label = toggle.querySelector('.reel-label');
-        const icon = toggle.querySelector('.reel-icon');
-        if (label) label.textContent = userPaused ? 'Play wall' : 'Pause wall';
-        if (icon) icon.textContent = userPaused ? '▶' : '❚❚';
-        toggle.setAttribute('aria-pressed', String(userPaused));
+    function moveSpotTo(print) {
+        if (!print) return;
+        const stageRect = stage.getBoundingClientRect();
+        const rect = print.getBoundingClientRect();
+        stage.style.setProperty('--spot-x', `${Math.round(rect.left - stageRect.left + rect.width / 2)}px`);
+        stage.style.setProperty('--spot-y', `${Math.round(rect.top - stageRect.top + rect.height * 0.4)}px`);
+        stage.classList.add('is-live');
     }
 
-    function schedule() {
-        window.clearInterval(timer);
-        timer = 0;
-        if (reduceMotion || !inView || userPaused || hovering || document.hidden) return;
-        timer = window.setInterval(() => setActive(active + 1, true), INTERVAL);
+    function setLit(index) {
+        items.forEach((item, i) => {
+            item.print.classList.toggle('is-lit', i === index);
+        });
+        if (index >= 0) moveSpotTo(items[index].print);
     }
 
-    function setActive(next, animate) {
-        const i = (next + thumbs.length) % thumbs.length;
-        const thumb = thumbs[i];
-        const src = thumb.dataset.src;
-        if (!src) return;
+    function stopTour() {
+        window.clearTimeout(tourTimer);
+        tourTimer = 0;
+    }
 
-        active = i;
-        if (image.getAttribute('src') !== src) image.src = src;
-        image.alt = thumb.dataset.alt || '';
-        feature.href = thumb.dataset.href || FEATURE_URL;
-        if (kicker) kicker.textContent = `Frame ${thumb.dataset.index} · ${thumb.dataset.tag}`;
-        if (title) title.textContent = thumb.dataset.title || '';
-        if (index) index.textContent = thumb.dataset.index || '';
-        if (current) current.textContent = thumb.dataset.index || '';
+    function canRunTour() {
+        return tourOn && canTour && inView && !hovering && !document.hidden && !boxOpen;
+    }
 
-        thumbs.forEach((item, itemIndex) => {
-            const on = itemIndex === i;
-            item.classList.toggle('is-active', on);
-            item.setAttribute('aria-current', on ? 'true' : 'false');
+    function scheduleTour(delay = 2800) {
+        stopTour();
+        if (!canRunTour()) return;
+        tourTimer = window.setTimeout(() => {
+            tourIndex = (tourIndex + 1) % items.length;
+            setLit(tourIndex);
+            scheduleTour();
+        }, delay);
+    }
+
+    function beginTour() {
+        if (!canTour || hovering) return;
+        if (tourIndex < 0) tourIndex = 0;
+        setLit(tourIndex);
+        scheduleTour(2400);
+    }
+
+    function paintTourButton() {
+        if (!tourBtn) return;
+        if (!canTour) {
+            tourBtn.hidden = true;
+            return;
+        }
+        tourBtn.hidden = false;
+        tourBtn.setAttribute('aria-pressed', String(tourOn));
+        const label = tourBtn.querySelector('.wall-tour-label');
+        const icon = tourBtn.querySelector('.wall-tour-icon');
+        if (label) label.textContent = tourOn ? 'Pause tour' : 'Play tour';
+        if (icon) icon.textContent = tourOn ? '❚❚' : '▶';
+    }
+
+    if (tourBtn) {
+        tourBtn.addEventListener('click', () => {
+            tourOn = !tourOn;
+            paintTourButton();
+            if (tourOn) {
+                beginTour();
+            } else {
+                stopTour();
+                setLit(-1);
+                stage.classList.remove('is-live', 'is-pointer');
+            }
+        });
+    }
+
+    if (canTour) {
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopTour();
+            } else if (tourOn) {
+                scheduleTour(1600);
+            }
         });
 
-        if (animate && !reduceMotion) {
-            feature.classList.remove('is-swapping');
-            void feature.offsetWidth;
-            feature.classList.add('is-swapping');
-            window.clearTimeout(swapTimer);
-            swapTimer = window.setTimeout(() => feature.classList.remove('is-swapping'), 560);
-        }
-
-        schedule();
-    }
-
-    thumbs.forEach((thumb, i) => {
-        thumb.addEventListener('pointerenter', () => {
-            if (!finePointer) return;
-            setActive(i, true);
+        stage.addEventListener('pointermove', (event) => {
+            const rect = stage.getBoundingClientRect();
+            stage.style.setProperty('--spot-x', `${Math.round(event.clientX - rect.left)}px`);
+            stage.style.setProperty('--spot-y', `${Math.round(event.clientY - rect.top)}px`);
+            stage.classList.add('is-live', 'is-pointer');
         });
-        thumb.addEventListener('focus', () => setActive(i, true));
-        thumb.addEventListener('click', () => setActive(i, true));
-    });
 
-    if (toggle) {
-        if (reduceMotion) {
-            toggle.hidden = true;
-        } else {
-            toggle.addEventListener('click', () => {
-                userPaused = !userPaused;
-                updateToggle();
-                schedule();
-            });
-        }
+        stage.addEventListener('pointerleave', () => {
+            stage.classList.remove('is-pointer');
+            if (tourOn) {
+                setLit(tourIndex);
+            } else {
+                stage.classList.remove('is-live');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (tourIndex >= 0) moveSpotTo(items[tourIndex].print);
+        });
     }
 
-    room.addEventListener('pointerenter', () => {
-        if (!finePointer) return;
-        hovering = true;
-        schedule();
+    items.forEach((item, i) => {
+        item.btn.addEventListener('pointerenter', () => {
+            if (!finePointer || boxOpen) return;
+            hovering = true;
+            stopTour();
+            setLit(i);
+            stage.classList.add('is-pointer');
+        });
+
+        item.btn.addEventListener('focus', () => {
+            if (boxOpen) return;
+            hovering = true;
+            stopTour();
+            setLit(i);
+        });
+
+        item.btn.addEventListener('blur', () => {
+            hovering = false;
+            if (tourOn) scheduleTour(1400);
+        });
+
+        item.btn.addEventListener('pointerleave', () => {
+            if (!finePointer || boxOpen) return;
+            hovering = false;
+            if (tourOn) scheduleTour(1800);
+        });
     });
 
-    room.addEventListener('pointerleave', () => {
-        if (!finePointer) return;
-        hovering = false;
-        schedule();
-    });
-
-    room.addEventListener('focusin', () => {
-        hovering = true;
-        schedule();
-    });
-
-    room.addEventListener('focusout', (event) => {
-        if (room.contains(event.relatedTarget)) return;
-        hovering = false;
-        schedule();
-    });
-
-    document.addEventListener('visibilitychange', schedule);
+    paintTourButton();
 
     if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 inView = entry.isIntersecting;
             });
-            schedule();
-        }, { threshold: 0.12 });
-        observer.observe(room);
+            if (inView && tourOn) {
+                beginTour();
+            } else if (!inView) {
+                stopTour();
+            }
+        }, { threshold: 0.16 });
+        observer.observe(stage);
     } else {
         inView = true;
-        schedule();
+        if (tourOn) beginTour();
     }
 
-    updateToggle();
+    /* ---------- Full-frame viewer ---------- */
+    const box = document.getElementById('wallBox');
+    if (!box) return;
+
+    const boxPanel = box.querySelector('.wallbox-panel');
+    const boxMedia = document.getElementById('wallboxMedia');
+    const boxImg = document.getElementById('wallboxImg');
+    const boxTitle = document.getElementById('wallboxTitle');
+    const boxDesc = document.getElementById('wallboxDesc');
+    const boxTag = document.getElementById('wallboxTag');
+    const boxCollection = document.getElementById('wallboxCollection');
+    const boxCurrent = document.getElementById('wallboxCurrent');
+    const boxLink = document.getElementById('wallboxLink');
+    const boxPrev = document.getElementById('wallboxPrev');
+    const boxNext = document.getElementById('wallboxNext');
+    const closeButtons = Array.from(box.querySelectorAll('[data-wall-close]'));
+
+    let boxIndex = 0;
+    let boxLastFocus = null;
+    let boxHideTimer = 0;
+    let boxSwapTimer = 0;
+
+    function preloadFull(index) {
+        const item = items[(index + items.length) % items.length];
+        if (!item || item.preloaded) return;
+        item.preloaded = true;
+        const preload = new Image();
+        preload.src = item.full;
+    }
+
+    function renderBox(animate) {
+        const item = items[boxIndex];
+        if (!item) return;
+
+        boxImg.src = item.full;
+        boxImg.alt = item.alt;
+        if (boxTitle) boxTitle.textContent = item.title;
+        if (boxDesc) boxDesc.textContent = item.desc;
+        if (boxTag) boxTag.textContent = item.tag;
+        if (boxCollection) boxCollection.textContent = item.collection;
+        if (boxCurrent) boxCurrent.textContent = String(boxIndex + 1).padStart(2, '0');
+        if (boxLink) {
+            boxLink.href = item.link;
+            boxLink.setAttribute('aria-label', `View ${item.title} project on Behance`);
+        }
+
+        if (animate && !reduceMotion) {
+            boxMedia.classList.remove('is-swapping');
+            void boxMedia.offsetWidth;
+            boxMedia.classList.add('is-swapping');
+            window.clearTimeout(boxSwapTimer);
+            boxSwapTimer = window.setTimeout(() => boxMedia.classList.remove('is-swapping'), 460);
+        }
+
+        preloadFull(boxIndex + 1);
+        preloadFull(boxIndex - 1);
+    }
+
+    function openBox(index) {
+        boxIndex = ((index % items.length) + items.length) % items.length;
+        boxLastFocus = document.activeElement;
+        window.clearTimeout(boxHideTimer);
+        renderBox(false);
+        box.hidden = false;
+        document.body.classList.add('wall-open');
+        const gap = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.paddingRight = gap > 0 ? `${gap}px` : '';
+        boxOpen = true;
+        hovering = false;
+        stopTour();
+        setLit(-1);
+        stage.classList.remove('is-live', 'is-pointer');
+        window.requestAnimationFrame(() => {
+            box.classList.add('is-open');
+            const close = box.querySelector('.wallbox-close');
+            if (close) close.focus();
+        });
+    }
+
+    function closeBox() {
+        if (!boxOpen) return;
+        boxOpen = false;
+        box.classList.remove('is-open');
+        document.body.classList.remove('wall-open');
+        document.body.style.paddingRight = '';
+        window.clearTimeout(boxHideTimer);
+        boxHideTimer = window.setTimeout(() => {
+            box.hidden = true;
+            if (boxLastFocus && typeof boxLastFocus.focus === 'function') boxLastFocus.focus();
+        }, reduceMotion ? 0 : 360);
+        if (tourOn) scheduleTour(2200);
+    }
+
+    function stepBox(direction) {
+        if (!boxOpen) return;
+        boxIndex = (boxIndex + direction + items.length) % items.length;
+        renderBox(true);
+    }
+
+    buttons.forEach((btn, i) => {
+        btn.addEventListener('click', () => openBox(i));
+    });
+
+    closeButtons.forEach((button) => {
+        button.addEventListener('click', closeBox);
+    });
+
+    if (boxPrev) boxPrev.addEventListener('click', () => stepBox(-1));
+    if (boxNext) boxNext.addEventListener('click', () => stepBox(1));
+
+    document.addEventListener('keydown', (event) => {
+        if (!boxOpen) return;
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            closeBox();
+            return;
+        }
+
+        if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            stepBox(-1);
+            return;
+        }
+
+        if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            stepBox(1);
+            return;
+        }
+
+        if (event.key === 'Tab' && boxPanel) {
+            const focusable = Array.from(box.querySelectorAll('button:not([disabled]), a[href]'))
+                .filter((el) => el.offsetParent !== null);
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+    });
+
+    let swipeStart = null;
+    if (boxMedia) {
+        boxMedia.addEventListener('pointerdown', (event) => {
+            if (event.pointerType !== 'touch') return;
+            swipeStart = event.clientX;
+        });
+
+        boxMedia.addEventListener('pointerup', (event) => {
+            if (swipeStart === null) return;
+            const distance = event.clientX - swipeStart;
+            swipeStart = null;
+            if (Math.abs(distance) > 44) stepBox(distance < 0 ? 1 : -1);
+        });
+
+        boxMedia.addEventListener('pointercancel', () => {
+            swipeStart = null;
+        });
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && boxOpen) closeBox();
+    });
 })();
 
 /* ------------------------------------------------------------
