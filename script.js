@@ -1662,9 +1662,8 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 (function themeSpider() {
     const spider = document.getElementById('themeSpider');
     const hit = document.getElementById('themeSpiderHit');
-    const hint = document.getElementById('themeSpiderHint');
     const meta = document.getElementById('themeColor');
-    if (!spider || !hit || !hint) return;
+    if (!spider || !hit) return;
 
     const root = document.documentElement;
     const STORAGE_KEY = 'aswin-theme';
@@ -1706,7 +1705,6 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
             ? 'Drag down to switch to the dark theme'
             : 'Drag down to switch to the light theme');
         if (meta) meta.setAttribute('content', light ? '#f4f1ea' : '#060607');
-        if (!spider.classList.contains('is-armed')) hint.textContent = 'PULL';
     }
 
     function applyTheme(light, persist) {
@@ -1795,7 +1793,6 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
         lastPointerAt = performance.now();
         spider.classList.remove('is-dragging', 'is-armed');
         document.body.classList.remove('is-spider-dragging');
-        hint.textContent = 'PULL';
 
         if (shouldSwitch) {
             applyTheme(!lightOn(), true);
@@ -1853,7 +1850,6 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
 
         const armed = pull >= THRESHOLD;
         spider.classList.toggle('is-armed', armed);
-        hint.textContent = armed ? 'RELEASE' : 'PULL';
         paint();
     });
 
