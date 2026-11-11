@@ -1416,72 +1416,35 @@ html.has-custom-cursor .cursor-ring.is-pressed {
     letter-spacing: -0.03em;
     text-transform: uppercase;
     white-space: nowrap;
-    --comic-rot: -1.6deg;
+    --box-rot: -1.5deg;
+    transition: color 0.14s ease, transform 0.46s cubic-bezier(0.2, 0.9, 0.3, 1.25);
 }
 
 .hero-name-part:nth-child(2) {
-    --comic-rot: 1deg;
+    --box-rot: 1.1deg;
 }
 
-/* Hover Easter egg: the name slams into a hand-inked comic
-   treatment with the cyan/pink misprint offset. */
-.hero-name-part::after {
-    content: attr(data-text);
+/* Hover Easter egg: each line stamps into a red print block. */
+.hero-name-part::before {
+    content: "";
     position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fffdf7;
-    white-space: nowrap;
-    -webkit-text-stroke: 0.02em #0b0a10;
-    text-shadow:
-        -0.045em 0.045em 0 #22d3ee,
-        -0.07em 0.07em 0 #0b0a10,
-        0.05em 0.06em 0 #ff3ea5,
-        0.075em 0.085em 0 #0b0a10,
-        0.13em 0.14em 0.02em rgba(0, 0, 0, 0.55);
+    inset: 0.01em -0.055em;
+    z-index: -1;
+    background: var(--red);
+    box-shadow: 0 0 0 0.012em #f2ede3, 0 0.035em 0 rgba(0, 0, 0, 0.28);
     opacity: 0;
-    pointer-events: none;
-    transform: translateY(0.05em) scale(0.92) rotate(var(--comic-rot));
-    transform-origin: 50% 50%;
-    transition: opacity 0.16s ease, transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.25);
-}
-
-.hero-name-line {
-    transition: gap 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+    transform: scale(0.96);
+    transition: opacity 0.14s ease, transform 0.46s cubic-bezier(0.2, 0.9, 0.3, 1.25);
 }
 
 .hero-name-stage:hover .hero-name-part {
-    color: transparent;
-    transition: color 0.12s ease;
+    color: #fffdf7;
+    transform: rotate(var(--box-rot));
 }
 
-.hero-name-stage:hover .hero-name-part::after {
+.hero-name-stage:hover .hero-name-part::before {
     opacity: 1;
-    transform: translateY(0) scale(1.015) rotate(var(--comic-rot));
-    animation: comic-slam 0.46s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
-}
-
-.hero-name-stage:hover .hero-name-line {
-    gap: 0.03em;
-}
-
-@keyframes comic-slam {
-    0% {
-        opacity: 0;
-        transform: translateY(0.14em) scale(0.82) rotate(calc(var(--comic-rot) - 3deg));
-    }
-
-    55% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1.015) rotate(var(--comic-rot));
-    }
+    transform: scale(1);
 }
 
 .hero-logline {
