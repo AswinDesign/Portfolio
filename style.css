@@ -60,6 +60,13 @@
     font-style: normal;
     font-display: swap;
 }
+@font-face {
+    font-family: "Permanent Marker";
+    src: url("./assets/fonts/permanent-marker-latin-400.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
 /* ---------- Tokens ---------- */
 :root {
@@ -1416,6 +1423,77 @@ html.has-custom-cursor .cursor-ring.is-pressed {
     letter-spacing: -0.03em;
     text-transform: uppercase;
     white-space: nowrap;
+    --comic-rot: -1.6deg;
+}
+
+.hero-name-part:nth-child(2) {
+    --comic-rot: 1deg;
+}
+
+/* Hover Easter egg: the name slams into a hand-inked comic
+   treatment with the cyan/pink misprint offset. */
+.hero-name-part::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fffdf7;
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    font-size: 0.95em;
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    -webkit-text-stroke: 0.026em #0b0a10;
+    text-shadow:
+        -0.045em 0.045em 0 #22d3ee,
+        -0.07em 0.07em 0 #0b0a10,
+        0.05em 0.06em 0 #ff3ea5,
+        0.075em 0.085em 0 #0b0a10,
+        0.13em 0.14em 0.02em rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.05em) scale(0.92) rotate(var(--comic-rot));
+    transform-origin: 50% 50%;
+    transition: opacity 0.16s ease, transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+}
+
+.hero-name-line {
+    transition: gap 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+}
+
+.hero-name-stage:hover .hero-name-part {
+    color: transparent;
+    transition: color 0.12s ease;
+}
+
+.hero-name-stage:hover .hero-name-part::after {
+    opacity: 1;
+    transform: translateY(0) scale(1.015) rotate(var(--comic-rot));
+    animation: comic-slam 0.46s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+}
+
+.hero-name-stage:hover .hero-name-line {
+    gap: 0.03em;
+}
+
+@keyframes comic-slam {
+    0% {
+        opacity: 0;
+        transform: translateY(0.14em) scale(0.82) rotate(calc(var(--comic-rot) - 3deg));
+    }
+
+    55% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1.015) rotate(var(--comic-rot));
+    }
 }
 
 .hero-logline {
